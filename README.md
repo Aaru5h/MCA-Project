@@ -9,10 +9,10 @@ Course: Modern Computer Architecture, Newton School of Technology, Rishihood Uni
 | Member | Role | Owns |
 |---|---|---|
 | Aarush Gupta | Cache Datapath, Performance & Repo Lead | `rtl/dm_cache.v` (datapath), `tb/tb_trace.v`, `scripts/cache_model.py`, `docs/address_fields.md`, results, README |
-| _Member 2_ | Controller, Memory Interface & Synthesis Lead | `rtl/dm_cache.v` (FSM), `rtl/main_mem.v`, FSM diagram, synthesis |
-| _Member 3_ | Verification Lead | `tb/tb_dm_cache.v`, waveform screenshots |
-| _Member 4_ | Traces & Plots Lead | `scripts/trace_gen.py`, `traces/`, plots, block diagram |
-| _Member 5_ | Report & Demo Lead | `report/`, Phase I video |
+| Deepak | Controller, Memory Interface & Synthesis | `rtl/dm_cache.v` (FSM), `rtl/main_mem.v`, latency results, synthesis |
+| Kushagra | Verification & Traces | `tb/tb_dm_cache.v`, `scripts/trace_gen.py`, `traces/` |
+| Meet | Diagrams & Waveforms | `docs/diagrams/`, `docs/waveforms/` |
+| Utkarsh | Report & Video | `report/`, Phase I video |
 
 ## Cache parameters
 
