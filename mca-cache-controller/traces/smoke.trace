@@ -1,0 +1,23 @@
+# smoke.trace - small hand-written trace for checking tb_trace.v
+# Default config: 1 KB cache, 16 B blocks -> index = addr[9:4], tag = addr[31:10]
+#
+# 1) cold miss, then the other 3 words of the same block hit (spatial locality)
+R 00000040
+R 00000044
+R 00000048
+R 0000004C
+# 2) same block again: all hits (temporal locality)
+R 00000040
+R 0000004C
+# 3) 0x440 is exactly 1 KB above 0x040 -> same index 4, different tag -> conflict
+R 00000440
+R 00000040
+R 00000440
+# 4) write hit: cache and memory both updated (write-through)
+W 00000444 12345678
+R 00000444
+# 5) write miss: memory updated, block NOT brought into the cache,
+#    so the next read misses (and refills), and the one after that hits
+W 00000800 0BADF00D
+R 00000800
+R 00000800
