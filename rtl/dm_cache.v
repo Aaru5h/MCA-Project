@@ -118,6 +118,12 @@ module dm_cache #(
             cpu_ready  <= 1'b0;
             mem_req    <= 1'b0;
             mem_we     <= 1'b0;
+            mem_addr   <= 0;
+            mem_wdata  <= 0;
+            cpu_rdata  <= 0;
+            req_addr   <= 0;
+            req_wdata  <= 0;
+            req_we     <= 0;
             hit_count  <= 0;
             miss_count <= 0;
             beat       <= 0;
@@ -193,7 +199,15 @@ module dm_cache #(
                 cpu_ready <= 1'b1;
                 state     <= S_IDLE;
             end
-            default: state <= S_IDLE;
+            default: begin
+                // Recover without leaving a stale memory request active.
+                state     <= S_IDLE;
+                mem_req   <= 1'b0;
+                mem_we    <= 1'b0;
+                cpu_ready <= 1'b0;
+                for (i = 0; i < NUM_LINES; i = i + 1)
+                    valid_arr[i] <= 1'b0;
+            end
             endcase
         end
     end
