@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 500" width="100%" height="100%" style="background-color: #0b1120; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <text x="40" y="38" font-size="20" font-weight="700" fill="#f8fafc">Cache Size Scaling: Hit Rate vs. Capacity</text>
+  <text x="40" y="60" font-size="12" fill="#94a3b8">Block Size = 16 B, Memory Latency = 4, Policy = WA=0. Exposes capacity misses as working set fits in cache.</text>
+
+  <!-- Plot Area: x=100..750, y=90..400 -->
+  <rect x="100" y="90" width="650" height="310" fill="#0f172a" stroke="#1e293b" rx="6"/>
+
+  <!-- Horizontal Grid Lines (0% to 100%) -->
+  <g stroke="#1e293b" stroke-dasharray="3,3" stroke-width="1">
+    <line x1="100" y1="400" x2="750" y2="400"/>
+    <line x1="100" y1="322.5" x2="750" y2="322.5"/>
+    <line x1="100" y1="245" x2="750" y2="245"/>
+    <line x1="100" y1="167.5" x2="750" y2="167.5"/>
+    <line x1="100" y1="90" x2="750" y2="90"/>
+  </g>
+
+  <!-- Y-Axis Labels -->
+  <g font-size="11" fill="#64748b" text-anchor="end">
+    <text x="90" y="404">0%</text>
+    <text x="90" y="326">25%</text>
+    <text x="90" y="249">50%</text>
+    <text x="90" y="171">75%</text>
+    <text x="90" y="94">100%</text>
+  </g>
+
+  <!-- X-Axis Labels (256, 512, 1024, 2048, 4096) -->
+  <g font-size="12" fill="#cbd5e1" text-anchor="middle">
+    <text x="140" y="425">256 B</text>
+    <text x="277" y="425">512 B</text>
+    <text x="425" y="425">1024 B (1 KB)</text>
+    <text x="572" y="425">2048 B (2 KB)</text>
+    <text x="710" y="425">4096 B (4 KB)</text>
+    <text x="425" y="450" font-weight="600" fill="#94a3b8">Cache Capacity (Bytes)</text>
+  </g>
+  <path d="M 140.0 316.5 L 277.0 251.0 L 425.0 167.5 L 572.0 167.5 L 710.0 167.5" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="140.0" cy="316.5" r="5" fill="#38bdf8" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="277.0" cy="251.0" r="5" fill="#38bdf8" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="425.0" cy="167.5" r="5" fill="#38bdf8" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="572.0" cy="167.5" r="5" fill="#38bdf8" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="710.0" cy="167.5" r="5" fill="#38bdf8" stroke="#0f172a" stroke-width="2"/>
+  <path d="M 140.0 109.4 L 277.0 109.4 L 425.0 109.4 L 572.0 109.4 L 710.0 109.4" fill="none" stroke="#34d399" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="140.0" cy="109.4" r="5" fill="#34d399" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="277.0" cy="109.4" r="5" fill="#34d399" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="425.0" cy="109.4" r="5" fill="#34d399" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="572.0" cy="109.4" r="5" fill="#34d399" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="710.0" cy="109.4" r="5" fill="#34d399" stroke="#0f172a" stroke-width="2"/>
+  <path d="M 140.0 167.5 L 277.0 167.5 L 425.0 167.5 L 572.0 167.5 L 710.0 167.5" fill="none" stroke="#818cf8" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="140.0" cy="167.5" r="5" fill="#818cf8" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="277.0" cy="167.5" r="5" fill="#818cf8" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="425.0" cy="167.5" r="5" fill="#818cf8" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="572.0" cy="167.5" r="5" fill="#818cf8" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="710.0" cy="167.5" r="5" fill="#818cf8" stroke="#0f172a" stroke-width="2"/>
+  <path d="M 140.0 400.0 L 277.0 400.0 L 425.0 400.0 L 572.0 298.3 L 710.0 97.3" fill="none" stroke="#f43f5e" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="140.0" cy="400.0" r="5" fill="#f43f5e" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="277.0" cy="400.0" r="5" fill="#f43f5e" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="425.0" cy="400.0" r="5" fill="#f43f5e" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="572.0" cy="298.3" r="5" fill="#f43f5e" stroke="#0f172a" stroke-width="2"/>
+  <circle cx="710.0" cy="97.3" r="5" fill="#f43f5e" stroke="#0f172a" stroke-width="2"/>
+  <!-- Legend -->
+  <g transform="translate(100, 470)" font-size="11">
+    <circle cx="10" cy="5" r="4" fill="#38bdf8"/>
+    <text x="22" y="9" fill="#cbd5e1">Random (1 KB Set)</text>
+
+    <circle cx="180" cy="5" r="4" fill="#34d399"/>
+    <text x="192" y="9" fill="#cbd5e1">Repeated Loop (128 B)</text>
+
+    <circle cx="370" cy="5" r="4" fill="#818cf8"/>
+    <text x="382" y="9" fill="#cbd5e1">Sequential</text>
+
+    <circle cx="500" cy="5" r="4" fill="#f43f5e"/>
+    <text x="512" y="9" fill="#cbd5e1">Conflict (1 KB Aliasing)</text>
+  </g>
+</svg>

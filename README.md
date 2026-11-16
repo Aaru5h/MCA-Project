@@ -16,7 +16,7 @@ Course: Modern Computer Architecture, Newton School of Technology, Rishihood Uni
 
 ## Remaining work and ownership
 
-The work is split into four substantial packages across Deepak, Kushagra, Meet and Utkarsh. Each package includes implementation, validation and documentation. Aarush's Phase I foundation is the starting point. Deepak's and Kushagra's packages are implemented below; Meet's and Utkarsh's packages remain pending.
+The work is split into four substantial packages across Deepak, Kushagra, Meet and Utkarsh. Each package includes implementation, validation and documentation. Aarush's Phase I foundation is the starting point. Deepak's, Kushagra's and Meet's packages are implemented below; Utkarsh's package remains pending.
 
 ### Deepak — RTL, memory interface and synthesis (implemented)
 
@@ -34,13 +34,13 @@ The work is split into four substantial packages across Deepak, Kushagra, Meet a
 - Extended `scripts/cache_model.py` to model both allocation policies (`--write-allocate 0/1`) and handle boundary geometries.
 - Added `scripts/run_regression.py` running automated regression across 5 directed configurations and 32 trace/geometry/policy combinations, achieving 100% correlation between RTL and Python model counts. Verification summary and reproduction instructions are in [`docs/verification/`](docs/verification/README.md).
 
-### Meet — Performance experiments, diagrams and waveforms
+### Meet — Performance experiments, diagrams and waveforms (implemented)
 
-- Add an experiment runner for cache-size, block-size, memory-latency and allocation-policy sweeps. Use Kushagra's workloads and Utkarsh's corrected metrics and no-cache benchmark.
-- Save commands, configuration details and raw CSV results under `docs/results/`; include workloads that expose capacity and conflict effects rather than only streaming behavior.
-- Produce plots for hit rate, average cycles, cache versus no-cache performance and the effect of block size, latency and write allocation. Explain cases where higher hit rate does not reduce access time.
-- Create the architecture and FSM diagrams in `docs/diagrams/`, keeping them consistent with Deepak's final RTL.
-- Capture and annotate waveforms for read miss/refill, read hit, conflict eviction, write hit/miss and reset in `docs/waveforms/`. Supply the experiment analysis and visual assets for the report and video.
+- Added multi-parameter experiment runner `scripts/run_experiments.py` sweeping cache sizes (256 B–4096 B), block sizes (4 B–64 B), memory latencies (1–16 cycles), and allocation policies across all 8 benchmark workloads.
+- Saved raw CSV datasets in [`docs/results/experiments/`](docs/results/experiments/README.md) and authored comprehensive architectural analysis in [`docs/results/performance_analysis.md`](docs/results/performance_analysis.md).
+- Generated publication-grade vector plots in `docs/results/plots/` for cache size scaling, block size trade-offs, latency sensitivity, and speedup over no-cache baseline.
+- Created synthesizable cache datapath architecture and controller FSM diagrams in [`docs/diagrams/`](docs/diagrams/README.md), strictly consistent with Deepak's final RTL.
+- Implemented `tb/tb_waveforms.v` and `scripts/generate_waveforms.py`, capturing VCD traces and annotating 7 execution scenarios (read hit, read miss, conflict eviction, write hit/miss under both policies, and mid-transaction reset recovery) in [`docs/waveforms/`](docs/waveforms/README.md).
 
 ### Utkarsh — Performance accounting, baseline and final delivery
 
@@ -184,6 +184,24 @@ python3 scripts/trace_gen.py --generate-suite
 ```
 
 Detailed verification matrices and reproduction commands are documented in [`docs/verification/README.md`](docs/verification/README.md).
+
+### Performance sweeps and waveform generation
+
+Run multi-parameter sweeps across geometries, latencies, policies, and workloads, and render visual plots:
+
+```bash
+python3 scripts/run_experiments.py
+python3 scripts/plot_results.py
+```
+
+Generate cycle-accurate waveforms and timing diagrams for 7 controller scenarios:
+
+```bash
+python3 scripts/generate_waveforms.py
+gtkwave docs/waveforms/cache_scenarios.vcd
+```
+
+Detailed performance trade-off analysis is documented in [`docs/results/performance_analysis.md`](docs/results/performance_analysis.md). Diagrams are in [`docs/diagrams/`](docs/diagrams/README.md) and waveform walkthroughs in [`docs/waveforms/`](docs/waveforms/README.md).
 
 ### Trace format
 
