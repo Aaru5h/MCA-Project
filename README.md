@@ -16,7 +16,7 @@ Course: Modern Computer Architecture, Newton School of Technology, Rishihood Uni
 
 ## Remaining work and ownership
 
-The work is split into four substantial packages across Deepak, Kushagra, Meet and Utkarsh. Each package includes implementation, validation and documentation. Aarush's Phase I foundation is the starting point. Deepak's package is implemented below; the other three packages remain pending.
+The work is split into four substantial packages across Deepak, Kushagra, Meet and Utkarsh. Each package includes implementation, validation and documentation. Aarush's Phase I foundation is the starting point. Deepak's and Kushagra's packages are implemented below; Meet's and Utkarsh's packages remain pending.
 
 ### Deepak — RTL, memory interface and synthesis (implemented)
 
@@ -26,13 +26,13 @@ The work is split into four substantial packages across Deepak, Kushagra, Meet a
 - Added `scripts/synthesize.py` and committed generic synthesis statistics, commands, manifests and warning summaries for both policies in [`docs/synthesis/`](docs/synthesis/README.md).
 - Documented CPU/memory handshakes, reset semantics, cycle formulas and measured latency 1/2/4/8 results in [`docs/controller_memory.md`](docs/controller_memory.md) and [`docs/results/deepak_latency/`](docs/results/deepak_latency/README.md). Focused RTL and synthesized-netlist checks passed; permanent regression integration remains in Kushagra's package.
 
-### Kushagra — Verification and workload generation
+### Kushagra — Verification and workload generation (implemented)
 
-- Add `tb/tb_dm_cache.v` with directed checks for cold misses, every word of a refill, repeated hits, conflicts, write hits/misses, both allocation policies and reset during an access.
-- Check backing-memory contents after writes and after cache eviction, so cached reads cannot hide a broken write-through path. Check ready pulses, request completion and hit/miss counters.
-- Harden testbench correctness checks with bounded waits, fatal failures, strict trace parsing, alignment/range checks and explicit empty-trace handling. Coordinate edits to `tb/tb_trace.v` with Utkarsh, who owns its performance calculations.
-- Add `scripts/trace_gen.py` and reproducible sequential, repeated-working-set, strided, conflict, random and mixed read/write traces. Record seeds, address limits and expected behavior.
-- Extend the Python model for the allocation option and add a regression command that compares RTL/model counts across configurations and latencies, exits unsuccessfully on failures and saves a verification summary for the report.
+- Added `tb/tb_dm_cache.v` with 12 directed checks for cold misses, ascending refill word order, repeated hits, conflict eviction, write-through verification in backing memory, both allocation policies (`WRITE_ALLOCATE=0/1`), handshake contracts (`cpu_ready` 1-cycle pulse), and synchronous reset mid-refill and mid-write.
+- Hardened `tb/tb_trace.v` with bounded timeout watchdogs, strict address alignment assertions (`[1:0] == 00`), address range limits against memory size, simulation-level watchdog, and explicit empty-trace handling.
+- Added `scripts/trace_gen.py` and generated a reproducible trace suite (`traces/`) covering sequential, repeated-working-set (loop), strided, conflict thrashing, pseudo-random, and mixed read/write workloads with documented random seeds.
+- Extended `scripts/cache_model.py` to model both allocation policies (`--write-allocate 0/1`) and handle boundary geometries.
+- Added `scripts/run_regression.py` running automated regression across 5 directed configurations and 32 trace/geometry/policy combinations, achieving 100% correlation between RTL and Python model counts. Verification summary and reproduction instructions are in [`docs/verification/`](docs/verification/README.md).
 
 ### Meet — Performance experiments, diagrams and waveforms
 
@@ -153,7 +153,7 @@ python3 scripts/cache_model.py traces/smoke.trace --size 1024 --block 16
 
 ### Controller options and synthesis
 
-`dm_cache` accepts `WRITE_ALLOCATE=0` (default) or `1`. For write-allocation simulation without changing the shared testbench, see the [latency reproduction commands](docs/results/deepak_latency/README.md). The current Python model still models no-write-allocate only.
+`dm_cache` accepts `WRITE_ALLOCATE=0` (default) or `1`. For write-allocation simulation, pass `-Ptb_trace.WRITE_ALLOCATE=1` or refer to the [latency reproduction commands](docs/results/deepak_latency/README.md).
 
 ```bash
 python3 scripts/synthesize.py --write-allocate 0
@@ -161,6 +161,29 @@ python3 scripts/synthesize.py --write-allocate 1
 ```
 
 Both default-size variants passed generic synthesis with zero warnings. [Synthesis results](docs/synthesis/README.md) describe the tool, cell counts and target limitations. These are generic resource results, with no device-specific frequency or physical area claim.
+
+### Directed verification and regression
+
+Run the complete regression suite to cross-check RTL against the Python reference model across 32 configuration/trace combinations:
+
+```bash
+python3 scripts/run_regression.py
+```
+
+Run directed unit verification covering 12 corner cases, handshakes, memory write-through checks and mid-transaction reset recovery:
+
+```bash
+iverilog -g2012 -o sim_dm_cache rtl/main_mem.v rtl/dm_cache.v tb/tb_dm_cache.v
+vvp sim_dm_cache
+```
+
+Generate synthetic workload traces across 6 memory access patterns:
+
+```bash
+python3 scripts/trace_gen.py --generate-suite
+```
+
+Detailed verification matrices and reproduction commands are documented in [`docs/verification/README.md`](docs/verification/README.md).
 
 ### Trace format
 

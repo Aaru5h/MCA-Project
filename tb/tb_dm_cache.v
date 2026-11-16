@@ -230,19 +230,20 @@ module tb_dm_cache;
         // Test 4: Repeated Hits on Same Block
         // ------------------------------------------------------------
         test_num = 4;
-        cpu_access(0, 32'h0000_0044, 32'h0, rd_data, cyc_taken, got_hit);
-        check(got_hit && rd_data == 32'hC0DE_0011, "Repeated hit returns correct data");
+        cpu_access(0, 32'h0000_0040, 32'h0, rd_data, cyc_taken, got_hit);
+        check(got_hit && rd_data == 32'hC0DE_0010, "Repeated hit returns correct data");
 
         // ------------------------------------------------------------
         // Test 5: Conflict Miss and Line Eviction
         // ------------------------------------------------------------
         test_num = 5;
-        // Addr 0x40 has index (0x40 >> 4) % 64 = 4.
-        // Addr 0x440 (0x40 + 1024) has identical index 4, but tag differing by 1.
-        cpu_access(0, 32'h0000_0440, 32'h0, rd_data, cyc_taken, got_hit);
+        // Addr 0x40 has index (0x40 >> OFFSET_W) & (NUM_LINES - 1).
+        // Addr 0x40 + CACHE_SIZE has identical index, but tag differing by 1.
+        cpu_access(0, 32'h0000_0040 + CACHE_SIZE, 32'h0, rd_data, cyc_taken, got_hit);
         check(!got_hit, "Conflict address misses and evicts old line");
-        check(rd_data == (32'hC0DE_0000 + (32'h440 >> 2)), "Conflict miss returns correct memory data");
-        check(dut.dbg_tag == (32'h0000_0440 >> (dut.OFFSET_W + dut.INDEX_W)),
+        check(rd_data == (32'hC0DE_0000 + ((32'h0000_0040 + CACHE_SIZE) >> 2)),
+              "Conflict miss returns correct memory data");
+        check(dut.dbg_tag == ((32'h0000_0040 + CACHE_SIZE) >> (dut.OFFSET_W + dut.INDEX_W)),
               "New tag stored in line index");
 
         // Re-accessing 0x40 must now miss again (conflict thrashing)
@@ -254,13 +255,13 @@ module tb_dm_cache;
         // ------------------------------------------------------------
         test_num = 6;
         // Line 0x40 is currently cached from Test 5
-        cpu_access(1, 32'h0000_0048, 32'hDEAD_BEEF, rd_data, cyc_taken, got_hit);
+        cpu_access(1, 32'h0000_0040, 32'hDEAD_BEEF, rd_data, cyc_taken, got_hit);
         check(got_hit, "Write to valid cached line is a write hit");
-        // Check backing memory directly (word addr = 0x48 >> 2 = 18 = 0x12)
-        check(memory.storage[32'h48 >> 2] == 32'hDEAD_BEEF,
+        // Check backing memory directly (word addr = 0x40 >> 2 = 16 = 0x10)
+        check(memory.storage[32'h40 >> 2] == 32'hDEAD_BEEF,
               "Backing memory directly contains updated write-through data");
         // Verify subsequent read hits and returns updated data from cache
-        cpu_access(0, 32'h0000_0048, 32'h0, rd_data, cyc_taken, got_hit);
+        cpu_access(0, 32'h0000_0040, 32'h0, rd_data, cyc_taken, got_hit);
         check(got_hit && rd_data == 32'hDEAD_BEEF, "Subsequent read hit returns modified data");
 
         // ------------------------------------------------------------
