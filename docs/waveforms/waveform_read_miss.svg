@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 480" width="100%" height="100%" style="background-color: #0b1120; font-family: 'SF Mono', Monaco, Consolas, monospace;">
+  <style>
+    .sig-lbl { font-size: 13px; font-weight: 600; fill: #94a3b8; }
+    .val-lbl { font-size: 11px; fill: #f8fafc; font-weight: 500; text-anchor: middle; }
+    .grid { stroke: #1e293b; stroke-width: 1; stroke-dasharray: 4,4; }
+    .wave-line { stroke-width: 2.2; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+  </style>
+
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#f8fafc" font-family="-apple-system, sans-serif">Waveform Analysis: Cold Read Miss &amp; 4-Word Block Refill (23 Cycles)</text>
+  <text x="30" y="52" font-size="12" fill="#64748b" font-family="-apple-system, sans-serif">Address 0x00000040: Miss triggers 4 burst reads from memory (latency 4/word + 1 ready pulse), overlays block, returns word</text>
+
+  <!-- Phase Dividers -->
+  <line x1="200" y1="75" x2="200" y2="445" class="grid"/>
+  <line x1="280" y1="75" x2="280" y2="445" class="grid"/>
+  <line x1="780" y1="75" x2="780" y2="445" class="grid"/>
+  <line x1="880" y1="75" x2="880" y2="445" class="grid"/>
+
+  <!-- Phase Markers -->
+  <text x="240" y="85" class="val-lbl" fill="#818cf8">Compare (1 cyc)</text>
+  <text x="530" y="85" class="val-lbl" fill="#34d399">ALLOCATE (20 Cycles: 4 words × 5 cycles/word)</text>
+  <text x="830" y="85" class="val-lbl" fill="#ec4899">Respond</text>
+
+  <!-- Signals -->
+  <!-- clk -->
+  <text x="30" y="115" class="sig-lbl">clk</text>
+  <path d="M 150 120 L 175 120 L 175 95 L 200 95 L 200 120 L 240 120 L 240 95 L 280 95 L 280 120 L 400 120 L 400 95 L 430 95 L 430 120 L 530 120 L 530 95 L 560 95 L 560 120 L 660 120 L 660 95 L 690 95 L 690 120 L 780 120 L 780 95 L 830 95 L 830 120 L 880 120" class="wave-line" stroke="#64748b"/>
+
+  <!-- cpu_req -->
+  <text x="30" y="155" class="sig-lbl">cpu_req</text>
+  <path d="M 150 165 L 200 165 L 205 135 L 275 135 L 280 165 L 880 165" class="wave-line" stroke="#38bdf8"/>
+
+  <!-- Controller State -->
+  <text x="30" y="195" class="sig-lbl">dut.state</text>
+  <rect x="150" y="175" width="45" height="28" rx="3" fill="#1e293b" stroke="#38bdf8"/>
+  <text x="172" y="193" class="val-lbl">IDLE</text>
+
+  <rect x="202" y="175" width="75" height="28" rx="3" fill="#1e293b" stroke="#818cf8"/>
+  <text x="239" y="193" class="val-lbl" fill="#818cf8">COMPARE</text>
+
+  <rect x="282" y="175" width="495" height="28" rx="3" fill="#1e293b" stroke="#34d399"/>
+  <text x="530" y="193" class="val-lbl" fill="#34d399">S_ALLOCATE (Fetching Words 0, 1, 2, 3)</text>
+
+  <rect x="782" y="175" width="95" height="28" rx="3" fill="#1e293b" stroke="#ec4899"/>
+  <text x="830" y="193" class="val-lbl" fill="#ec4899">RESPOND</text>
+
+  <!-- mem_req -->
+  <text x="30" y="240" class="sig-lbl">mem_req</text>
+  <path d="M 150 250 L 280 250 L 285 220 L 775 220 L 780 250 L 880 250" class="wave-line" stroke="#fbbf24"/>
+  <text x="530" y="235" class="val-lbl" fill="#fbbf24">1'b1 (Held active across all 4 burst refill beats)</text>
+
+  <!-- mem_addr -->
+  <text x="30" y="285" class="sig-lbl">mem_addr</text>
+  <rect x="282" y="265" width="120" height="26" rx="3" fill="#0f172a" stroke="#fbbf24"/>
+  <text x="342" y="282" class="val-lbl">0x00000010 (w0)</text>
+  <rect x="408" y="265" width="120" height="26" rx="3" fill="#0f172a" stroke="#fbbf24"/>
+  <text x="468" y="282" class="val-lbl">0x00000011 (w1)</text>
+  <rect x="534" y="265" width="120" height="26" rx="3" fill="#0f172a" stroke="#fbbf24"/>
+  <text x="594" y="282" class="val-lbl">0x00000012 (w2)</text>
+  <rect x="660" y="265" width="115" height="26" rx="3" fill="#0f172a" stroke="#fbbf24"/>
+  <text x="717" y="282" class="val-lbl">0x00000013 (w3)</text>
+
+  <!-- mem_ready pulses -->
+  <text x="30" y="330" class="sig-lbl">mem_ready</text>
+  <path d="M 150 340 L 390 340 L 395 315 L 405 315 L 410 340 L 515 340 L 520 315 L 530 315 L 535 340 L 640 340 L 645 315 L 655 315 L 660 340 L 765 340 L 770 315 L 775 315 L 780 340 L 880 340" class="wave-line" stroke="#38bdf8"/>
+  <text x="402" y="310" class="val-lbl" fill="#38bdf8">Beat 0</text>
+  <text x="528" y="310" class="val-lbl" fill="#38bdf8">Beat 1</text>
+  <text x="652" y="310" class="val-lbl" fill="#38bdf8">Beat 2</text>
+  <text x="772" y="310" class="val-lbl" fill="#38bdf8">Beat 3</text>
+
+  <!-- valid & tag array commit -->
+  <text x="30" y="375" class="sig-lbl">valid_arr[index]</text>
+  <path d="M 150 385 L 775 385 L 780 355 L 880 355" class="wave-line" stroke="#34d399"/>
+  <text x="830" y="372" class="val-lbl" fill="#34d399">Committed (1'b1)</text>
+
+  <!-- cpu_ready -->
+  <text x="30" y="420" class="sig-lbl">cpu_ready</text>
+  <path d="M 150 430 L 780 430 L 785 400 L 875 400 L 880 430" class="wave-line" stroke="#ec4899"/>
+  <text x="830" y="417" class="val-lbl" fill="#ec4899">Cycle 23 Completion Pulse</text>
+</svg>
