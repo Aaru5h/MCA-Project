@@ -1,0 +1,33 @@
+=== read_write_hit ===
+------------------------------------------------------------
+trace         : /private/tmp/mca-deepak-validation/read_write_hit.trace
+config        : 1024 B cache, 16 B blocks, memory latency 4
+address fields: tag 22 | index 6 | offset 4 bits  (64 lines)
+accesses      : 4  (reads 3, writes 1)
+hits / misses : 3 / 1
+hit rate      : 75.00 %   miss rate: 25.00 %
+hit time      : 3.00 cycles   read-miss time: 23.00   miss penalty: 20.00
+write time    : 8.00 cycles (write-through, measured)
+avg cycles    : 9.25 per access (measured)
+AMAT          : 8.00 cycles (hit time + miss rate x miss penalty)
+no-cache      : 8.00 cycles per access
+DATA CHECK PASSED
+CSV,/private/tmp/mca-deepak-validation/read_write_hit.trace,1024,16,4,4,3,1,75.00,9.25,8.00,8.00
+tb/tb_trace.v:182: $finish called at 440000 (1ps)
+
+=== write_miss ===
+------------------------------------------------------------
+trace         : /private/tmp/mca-deepak-validation/write_miss.trace
+config        : 1024 B cache, 16 B blocks, memory latency 4
+address fields: tag 22 | index 6 | offset 4 bits  (64 lines)
+accesses      : 2  (reads 1, writes 1)
+hits / misses : 1 / 1
+hit rate      : 50.00 %   miss rate: 50.00 %
+hit time      : 3.00 cycles   read-miss time: 19.00   miss penalty: 16.00
+write time    : 28.00 cycles (write-through, measured)
+avg cycles    : 15.50 per access (measured)
+AMAT          : 11.00 cycles (hit time + miss rate x miss penalty)
+no-cache      : 8.00 cycles per access
+DATA CHECK PASSED
+CSV,/private/tmp/mca-deepak-validation/write_miss.trace,1024,16,4,2,1,1,50.00,15.50,11.00,8.00
+tb/tb_trace.v:182: $finish called at 360000 (1ps)

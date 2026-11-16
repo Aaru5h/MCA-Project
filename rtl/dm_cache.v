@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 // =============================================================================
 // dm_cache.v
-// Direct-mapped cache controller (write-through, no-write-allocate)
+// Direct-mapped cache controller (write-through, selectable write allocation)
 //
 // Default configuration: 1 KB cache, 16-byte blocks, 32-bit byte addresses
 //   lines        = CACHE_SIZE / BLOCK_SIZE      = 64
@@ -16,7 +16,8 @@
 // =============================================================================
 module dm_cache #(
     parameter CACHE_SIZE = 1024,   // bytes, power of two
-    parameter BLOCK_SIZE = 16      // bytes, power of two, >= 4
+    parameter BLOCK_SIZE = 16,     // bytes, power of two, >= 4
+    parameter WRITE_ALLOCATE = 0   // 0: bypass write misses; 1: refill then write
 ) (
     input  wire        clk,
     input  wire        rst_n,          // active-low synchronous reset
@@ -49,12 +50,28 @@ module dm_cache #(
     // ------------------------------------------------------------------
     // Derived geometry
     // ------------------------------------------------------------------
-    localparam NUM_LINES   = CACHE_SIZE / BLOCK_SIZE;
-    localparam WORDS_PER_B = BLOCK_SIZE / 4;
-    localparam OFFSET_W    = $clog2(BLOCK_SIZE);
+    // Safe intermediate values let invalid parameters reach the diagnostic.
+    localparam NUM_LINES   = (BLOCK_SIZE >= 4 && CACHE_SIZE >= BLOCK_SIZE)
+                             ? CACHE_SIZE / BLOCK_SIZE : 1;
+    localparam WORDS_PER_B = (BLOCK_SIZE >= 4) ? BLOCK_SIZE / 4 : 1;
+    localparam OFFSET_W    = (BLOCK_SIZE >= 4) ? $clog2(BLOCK_SIZE) : 2;
     localparam WSEL_W      = $clog2(WORDS_PER_B);   // word-select bits
     localparam INDEX_W     = $clog2(NUM_LINES);
     localparam TAG_W       = 32 - INDEX_W - OFFSET_W;
+    // Logical field widths may be zero; Verilog storage widths must not be.
+    localparam INDEX_BITS  = (INDEX_W > 0) ? INDEX_W : 1;
+    localparam WSEL_BITS   = (WSEL_W > 0) ? WSEL_W : 1;
+
+    generate
+        if (CACHE_SIZE < 4 || BLOCK_SIZE < 4 || CACHE_SIZE < BLOCK_SIZE ||
+            (CACHE_SIZE & (CACHE_SIZE - 1)) != 0 ||
+            (BLOCK_SIZE & (BLOCK_SIZE - 1)) != 0 || TAG_W < 1) begin : bad_geometry
+            initial $fatal(1, "Cache sizes must be powers of two: CACHE_SIZE >= BLOCK_SIZE >= 4, with a positive tag width");
+        end
+        if (WRITE_ALLOCATE != 0 && WRITE_ALLOCATE != 1) begin : bad_policy
+            initial $fatal(1, "WRITE_ALLOCATE must be 0 or 1");
+        end
+    endgenerate
 
     // ------------------------------------------------------------------
     // Storage: data array, tag array, valid bits
@@ -71,8 +88,8 @@ module dm_cache #(
     reg        req_we;
 
     wire [TAG_W-1:0]   a_tag   = req_addr[31 -: TAG_W];
-    wire [INDEX_W-1:0] a_index = req_addr[OFFSET_W +: INDEX_W];
-    wire [WSEL_W-1:0]  a_word  = req_addr[2 +: WSEL_W];
+    wire [INDEX_BITS-1:0] a_index = (req_addr >> OFFSET_W) & (NUM_LINES - 1);
+    wire [WSEL_BITS-1:0]  a_word  = (req_addr >> 2) & (WORDS_PER_B - 1);
 
     // Hit = the line is valid AND its stored tag equals the address tag
     wire line_valid = valid_arr[a_index];
@@ -88,12 +105,12 @@ module dm_cache #(
     // ------------------------------------------------------------------
     localparam [2:0] S_IDLE     = 3'd0,
                      S_COMPARE  = 3'd1,
-                     S_ALLOCATE = 3'd2,   // read miss: fetch the block
+                     S_ALLOCATE = 3'd2,   // allocating miss: fetch the block
                      S_WRITE    = 3'd3,   // write-through to memory
                      S_RESPOND  = 3'd4;
 
     reg [2:0]        state;
-    reg [WSEL_W-1:0] beat;                // which word of the block is arriving
+    reg [WSEL_BITS-1:0] beat;                // which word of the block is arriving
 
     assign busy = (state != S_IDLE);
 
@@ -105,6 +122,12 @@ module dm_cache #(
             cpu_ready  <= 1'b0;
             mem_req    <= 1'b0;
             mem_we     <= 1'b0;
+            mem_addr   <= 0;
+            mem_wdata  <= 0;
+            cpu_rdata  <= 0;
+            req_addr   <= 0;
+            req_wdata  <= 0;
+            req_we     <= 0;
             hit_count  <= 0;
             miss_count <= 0;
             beat       <= 0;
@@ -128,39 +151,51 @@ module dm_cache #(
                 if (is_hit) hit_count  <= hit_count + 1;
                 else        miss_count <= miss_count + 1;
 
-                if (req_we) begin
-                    // write-through: memory is always updated;
-                    // the cache copy is updated only on a hit (no allocate)
+                if (req_we && (is_hit || !WRITE_ALLOCATE)) begin
+                    // Write hits update both copies. With no-write-allocate,
+                    // a write miss bypasses the cache and preserves its victim.
                     if (is_hit)
-                        data_arr[{a_index, a_word}] <= req_wdata;
+                        data_arr[a_index * WORDS_PER_B + a_word] <= req_wdata;
                     mem_req   <= 1'b1;
                     mem_we    <= 1'b1;
                     mem_addr  <= req_addr >> 2;
                     mem_wdata <= req_wdata;
                     state     <= S_WRITE;
                 end else if (is_hit) begin
-                    cpu_rdata <= data_arr[{a_index, a_word}];
+                    cpu_rdata <= data_arr[a_index * WORDS_PER_B + a_word];
                     state     <= S_RESPOND;
                 end else begin
-                    // read miss: request the whole block, starting at word 0
+                    // Read miss or write-allocate miss: fetch from word 0.
                     beat     <= 0;
                     mem_req  <= 1'b1;
                     mem_we   <= 1'b0;
-                    mem_addr <= {req_addr[31:OFFSET_W], {WSEL_W{1'b0}}};
+                    mem_addr <= ((req_addr >> OFFSET_W) << (OFFSET_W - 2));
                     state    <= S_ALLOCATE;
                 end
             end
             // ----------------------------------------------------------
             S_ALLOCATE: begin
                 if (mem_ready) begin
-                    data_arr[{a_index, beat}] <= mem_rdata;
-                    if (beat == a_word)
+                    // Overlay the written word while retaining its neighbors.
+                    data_arr[a_index * WORDS_PER_B + beat] <=
+                        (req_we && beat == a_word) ? req_wdata : mem_rdata;
+                    if (!req_we && beat == a_word)
                         cpu_rdata <= mem_rdata;          // forward requested word
                     if (beat == WORDS_PER_B - 1) begin
-                        mem_req            <= 1'b0;
                         tag_arr[a_index]   <= a_tag;
                         valid_arr[a_index] <= 1'b1;
-                        state              <= S_RESPOND;
+                        if (req_we) begin
+                            // The memory's ready bubble separates the last
+                            // refill beat from this write-through transaction.
+                            mem_req   <= 1'b1;
+                            mem_we    <= 1'b1;
+                            mem_addr  <= req_addr >> 2;
+                            mem_wdata <= req_wdata;
+                            state     <= S_WRITE;
+                        end else begin
+                            mem_req <= 1'b0;
+                            state   <= S_RESPOND;
+                        end
                     end else begin
                         beat     <= beat + 1'b1;
                         mem_addr <= mem_addr + 1;
@@ -180,7 +215,15 @@ module dm_cache #(
                 cpu_ready <= 1'b1;
                 state     <= S_IDLE;
             end
-            default: state <= S_IDLE;
+            default: begin
+                // Recover without leaving a stale memory request active.
+                state     <= S_IDLE;
+                mem_req   <= 1'b0;
+                mem_we    <= 1'b0;
+                cpu_ready <= 1'b0;
+                for (i = 0; i < NUM_LINES; i = i + 1)
+                    valid_arr[i] <= 1'b0;
+            end
             endcase
         end
     end

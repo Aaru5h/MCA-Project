@@ -1,0 +1,76 @@
+5. Executing CHECK pass (checking for obvious problems).
+Checking module dm_cache...
+Found and reported 0 problems.
+{
+   "creator": "Yosys 0.71+post (git sha1 5628c13240f670b97aaaca3d47940c4afb8ff572, Release, AppleClang clang++ 21.0.0.21000401)",
+   "invocation": "stat -json ",
+   "modules": {
+      "\\dm_cache": {
+         "num_wires":         15236,
+         "num_wire_bits":     25183,
+         "num_pub_wires":     414,
+         "num_pub_wire_bits": 10065,
+         "num_ports":         20,
+         "num_port_bits":     299,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         24835,
+         "num_submodules":       0,
+         "num_cells_by_type": {
+            "$_ANDNOT_": 73,
+            "$_AND_": 2561,
+            "$_DFFE_PP_": 9600,
+            "$_DFF_P_": 64,
+            "$_MUX_": 6937,
+            "$_NAND_": 4105,
+            "$_NOR_": 138,
+            "$_NOT_": 22,
+            "$_ORNOT_": 542,
+            "$_OR_": 458,
+            "$_SDFFE_PN0P_": 230,
+            "$_SDFF_PN0_": 7,
+            "$_XNOR_": 6,
+            "$_XOR_": 92
+         }
+      }
+   },
+      "design": {
+         "num_wires":         15236,
+         "num_wire_bits":     25183,
+         "num_pub_wires":     414,
+         "num_pub_wire_bits": 10065,
+         "num_ports":         20,
+         "num_port_bits":     299,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         24835,
+         "num_submodules":       0,
+         "num_cells_by_type": {
+            "$_ANDNOT_": 73,
+            "$_AND_": 2561,
+            "$_DFFE_PP_": 9600,
+            "$_DFF_P_": 64,
+            "$_MUX_": 6937,
+            "$_NAND_": 4105,
+            "$_NOR_": 138,
+            "$_NOT_": 22,
+            "$_ORNOT_": 542,
+            "$_OR_": 458,
+            "$_SDFFE_PN0P_": 230,
+            "$_SDFF_PN0_": 7,
+            "$_XNOR_": 6,
+            "$_XOR_": 92
+         }
+      }
+}
+
+6. Executing JSON backend.
+
+7. Executing Verilog backend.
+
+7.1. Executing BMUXMAP pass.
+
+7.2. Executing DEMUXMAP pass.
+Dumping module `\dm_cache'.
