@@ -331,6 +331,70 @@ module tb_dm_cache;
         check(!got_hit, "Clean cold miss after reset recovery");
 
         // ------------------------------------------------------------
+        // Test 10: Multi-Word Write Sequencing and Coherency
+        // ------------------------------------------------------------
+        test_num = 10;
+        // Line 0x40 is valid; write to all words in block 0x40
+        for (w = 0; w < WORDS_PER_B; w = w + 1) begin
+            cpu_access(1, 32'h0000_0040 + (w * 4), 32'hA000_0000 + w, rd_data, cyc_taken, got_hit);
+            check(got_hit, "Consecutive write hit in same block");
+            check(memory.storage[(32'h40 >> 2) + w] == (32'hA000_0000 + w),
+                  "Memory storage immediately updated with write-through data");
+        end
+        // Read back all words from cache to ensure cache integrity
+        for (w = 0; w < WORDS_PER_B; w = w + 1) begin
+            cpu_access(0, 32'h0000_0040 + (w * 4), 32'h0, rd_data, cyc_taken, got_hit);
+            check(got_hit && rd_data == (32'hA000_0000 + w),
+                  "Cache line read hit returns newly written block data");
+        end
+
+        // ------------------------------------------------------------
+        // Test 11: Write Allocation Refill & Word Overlay Integrity
+        // ------------------------------------------------------------
+        test_num = 11;
+        // Target uncached block at 0x0000_1000, write specifically to word 1 (0x1004)
+        cpu_access(1, 32'h0000_1004, 32'hBEEF_0001, rd_data, cyc_taken, got_hit);
+        check(!got_hit, "Write to uncached address 0x1004 is a write miss");
+        check(memory.storage[32'h1004 >> 2] == 32'hBEEF_0001,
+              "Backing memory updated at 0x1004");
+
+        if (WRITE_ALLOCATE == 1) begin
+            // In write-allocate: block was refilled, word 1 overlaid with BEEF_0001,
+            // while word 0 should retain 0xC0DE_0400 (32'h1000 >> 2 = 0x400)
+            cpu_access(0, 32'h0000_1000, 32'h0, rd_data, cyc_taken, got_hit);
+            check(got_hit, "Neighboring word 0 hits in allocated cache line");
+            check(rd_data == (32'hC0DE_0000 + (32'h1000 >> 2)),
+                  "Neighboring word 0 preserves refilled backing memory value");
+
+            cpu_access(0, 32'h0000_1004, 32'h0, rd_data, cyc_taken, got_hit);
+            check(got_hit && rd_data == 32'hBEEF_0001,
+                  "Written word 1 returns overlaid write value");
+        end
+
+        // ------------------------------------------------------------
+        // Test 12: Synchronous Reset Mid-Write Transaction
+        // ------------------------------------------------------------
+        test_num = 12;
+        @(negedge clk);
+        cpu_req   = 1'b1;
+        cpu_we    = 1'b1;
+        cpu_addr  = 32'h0000_1400;
+        cpu_wdata = 32'h1234_5678;
+        @(negedge clk);
+        cpu_req   = 1'b0;
+        // Wait until memory write is initiated
+        while (!mem_we) @(negedge clk);
+        // Reset mid-write
+        rst_n = 1'b0;
+        @(negedge clk);
+        rst_n = 1'b1;
+        @(negedge clk);
+        check(busy == 0, "Controller resets to idle from WRITE state");
+        // Verify subsequent normal read access
+        cpu_access(0, 32'h0000_0040, 32'h0, rd_data, cyc_taken, got_hit);
+        check(!got_hit, "Cold miss after mid-write reset recovery");
+
+        // ------------------------------------------------------------
         // Summary
         // ------------------------------------------------------------
         $display("============================================================");
