@@ -1,0 +1,239 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 820" width="100%" height="100%" style="background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="fsmGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#312e81"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#fbbf24"/>
+    </marker>
+  </defs>
+
+  <!-- Title & Subtitle -->
+  <text x="40" y="45" font-size="24" font-weight="700" fill="#f8fafc">MCA Project 6: Direct-Mapped Cache Architecture</text>
+  <text x="40" y="70" font-size="14" fill="#94a3b8">Default Configuration: 1 KB Cache, 16-Byte Blocks (4 Words/Line, 64 Lines), Write-Through, Configurable Write-Allocate</text>
+
+  <!-- 32-bit Address Decomposition Box -->
+  <g transform="translate(40, 95)" filter="url(#shadow)">
+    <rect width="1020" height="90" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="20" y="28" font-size="14" font-weight="600" fill="#cbd5e1">32-Bit Byte Address Decomposition [31:0]</text>
+    
+    <!-- Tag Field -->
+    <rect x="20" y="38" width="540" height="38" rx="6" fill="#0369a1" stroke="#38bdf8" stroke-width="1"/>
+    <text x="290" y="58" font-size="13" font-weight="600" fill="#f0f9ff" text-anchor="middle">Tag [31:10] (22 bits)</text>
+    <text x="290" y="71" font-size="10" fill="#bae6fd" text-anchor="middle">Block identity comparator</text>
+
+    <!-- Index Field -->
+    <rect x="570" y="38" width="220" height="38" rx="6" fill="#4338ca" stroke="#818cf8" stroke-width="1"/>
+    <text x="680" y="58" font-size="13" font-weight="600" fill="#e0e7ff" text-anchor="middle">Index [9:4] (6 bits)</text>
+    <text x="680" y="71" font-size="10" fill="#c7d2fe" text-anchor="middle">Line selector (64 lines)</text>
+
+    <!-- Word Select Field -->
+    <rect x="800" y="38" width="120" height="38" rx="6" fill="#065f46" stroke="#34d399" stroke-width="1"/>
+    <text x="860" y="58" font-size="12" font-weight="600" fill="#ecfdf5" text-anchor="middle">Word [3:2] (2b)</text>
+    <text x="860" y="71" font-size="10" fill="#a7f3d0" text-anchor="middle">4 words / line</text>
+
+    <!-- Byte Offset Field -->
+    <rect x="930" y="38" width="70" height="38" rx="6" fill="#78350f" stroke="#fbbf24" stroke-width="1"/>
+    <text x="965" y="58" font-size="12" font-weight="600" fill="#fffbeb" text-anchor="middle">Byte [1:0]</text>
+    <text x="965" y="71" font-size="10" fill="#fde68a" text-anchor="middle">Aligned (00)</text>
+  </g>
+
+  <!-- Left: Processor Interface Box -->
+  <g transform="translate(40, 215)" filter="url(#shadow)">
+    <rect width="210" height="320" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="105" y="30" font-size="16" font-weight="700" fill="#38bdf8" text-anchor="middle">CPU Interface</text>
+    <path d="M 20 42 L 190 42" stroke="#334155" stroke-width="1"/>
+
+    <text x="25" y="70" font-size="13" font-weight="600" fill="#93c5fd">cpu_req</text>
+    <text x="185" y="70" font-size="11" fill="#64748b" text-anchor="end">in (1b)</text>
+
+    <text x="25" y="100" font-size="13" font-weight="600" fill="#93c5fd">cpu_we</text>
+    <text x="185" y="100" font-size="11" fill="#64748b" text-anchor="end">in (1b)</text>
+
+    <text x="25" y="130" font-size="13" font-weight="600" fill="#93c5fd">cpu_addr [31:0]</text>
+    <text x="185" y="130" font-size="11" fill="#64748b" text-anchor="end">in</text>
+
+    <text x="25" y="160" font-size="13" font-weight="600" fill="#93c5fd">cpu_wdata [31:0]</text>
+    <text x="185" y="160" font-size="11" fill="#64748b" text-anchor="end">in</text>
+
+    <path d="M 20 180 L 190 180" stroke="#334155" stroke-width="1"/>
+
+    <text x="25" y="210" font-size="13" font-weight="600" fill="#34d399">cpu_rdata [31:0]</text>
+    <text x="185" y="210" font-size="11" fill="#64748b" text-anchor="end">out</text>
+
+    <text x="25" y="240" font-size="13" font-weight="600" fill="#34d399">cpu_ready</text>
+    <text x="185" y="240" font-size="11" fill="#64748b" text-anchor="end">out (1b pulse)</text>
+
+    <text x="25" y="270" font-size="13" font-weight="600" fill="#fbbf24">busy</text>
+    <text x="185" y="270" font-size="11" fill="#64748b" text-anchor="end">out (state!=IDLE)</text>
+
+    <rect x="20" y="285" width="170" height="24" rx="4" fill="#0f172a" stroke="#334155"/>
+    <text x="105" y="301" font-size="10" fill="#94a3b8" text-anchor="middle">Synchronous Reset (rst_n)</text>
+  </g>
+
+  <!-- Center-Top: Tag Array & Hit Logic -->
+  <g transform="translate(280, 215)" filter="url(#shadow)">
+    <!-- Valid & Tag Memory -->
+    <rect width="470" height="170" rx="10" fill="#1e293b" stroke="#818cf8" stroke-width="1.5"/>
+    <text x="20" y="26" font-size="15" font-weight="700" fill="#818cf8">Storage Arrays (Indexed by Index [9:4])</text>
+    
+    <!-- Valid Bit Array -->
+    <rect x="20" y="42" width="90" height="110" rx="6" fill="#0f172a" stroke="#475569"/>
+    <text x="65" y="65" font-size="12" font-weight="600" fill="#cbd5e1" text-anchor="middle">Valid Array</text>
+    <text x="65" y="85" font-size="11" fill="#94a3b8" text-anchor="middle">64 × 1 bit</text>
+    <text x="65" y="115" font-size="10" fill="#34d399" text-anchor="middle">Cleared on rst</text>
+    <text x="65" y="132" font-size="9" fill="#64748b" text-anchor="middle">valid_arr[index]</text>
+
+    <!-- Tag Array -->
+    <rect x="120" y="42" width="140" height="110" rx="6" fill="#0f172a" stroke="#475569"/>
+    <text x="190" y="65" font-size="12" font-weight="600" fill="#cbd5e1" text-anchor="middle">Tag Array</text>
+    <text x="190" y="85" font-size="11" fill="#94a3b8" text-anchor="middle">64 × 22 bits</text>
+    <text x="190" y="115" font-size="10" fill="#38bdf8" text-anchor="middle">tag_arr[index]</text>
+    <text x="190" y="132" font-size="9" fill="#64748b" text-anchor="middle">Latched in ALLOCATE</text>
+
+    <!-- Comparator & Hit Gate -->
+    <g transform="translate(280, 42)">
+      <rect width="170" height="110" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="85" y="25" font-size="12" font-weight="600" fill="#f8fafc" text-anchor="middle">Hit Logic</text>
+
+      <!-- Comparator -->
+      <circle cx="85" cy="55" r="16" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="85" y="60" font-size="14" font-weight="700" fill="#38bdf8" text-anchor="middle">==</text>
+      <text x="85" y="82" font-size="9" fill="#94a3b8" text-anchor="middle">tag_match</text>
+
+      <!-- AND Gate for is_hit -->
+      <rect x="60" y="88" width="50" height="18" rx="3" fill="#0369a1"/>
+      <text x="85" y="101" font-size="10" font-weight="700" fill="#f0f9ff" text-anchor="middle">AND =&gt; is_hit</text>
+    </g>
+  </g>
+
+  <!-- Center-Bottom: Data Array & Word Multiplexer -->
+  <g transform="translate(280, 405)" filter="url(#shadow)">
+    <rect width="470" height="130" rx="10" fill="#1e293b" stroke="#34d399" stroke-width="1.5"/>
+    <text x="20" y="25" font-size="15" font-weight="700" fill="#34d399">Data Storage Array (1 KB = 64 lines × 4 words × 32 bits)</text>
+
+    <!-- 4 Word blocks -->
+    <rect x="20" y="40" width="95" height="40" rx="4" fill="#0f172a" stroke="#334155"/>
+    <text x="67" y="57" font-size="11" font-weight="600" fill="#cbd5e1" text-anchor="middle">Word 0</text>
+    <text x="67" y="72" font-size="9" fill="#64748b" text-anchor="middle">[wsel = 00]</text>
+
+    <rect x="125" y="40" width="95" height="40" rx="4" fill="#0f172a" stroke="#334155"/>
+    <text x="172" y="57" font-size="11" font-weight="600" fill="#cbd5e1" text-anchor="middle">Word 1</text>
+    <text x="172" y="72" font-size="9" fill="#64748b" text-anchor="middle">[wsel = 01]</text>
+
+    <rect x="230" y="40" width="95" height="40" rx="4" fill="#0f172a" stroke="#334155"/>
+    <text x="277" y="57" font-size="11" font-weight="600" fill="#cbd5e1" text-anchor="middle">Word 2</text>
+    <text x="277" y="72" font-size="9" fill="#64748b" text-anchor="middle">[wsel = 10]</text>
+
+    <rect x="335" y="40" width="95" height="40" rx="4" fill="#0f172a" stroke="#334155"/>
+    <text x="382" y="57" font-size="11" font-weight="600" fill="#cbd5e1" text-anchor="middle">Word 3</text>
+    <text x="382" y="72" font-size="9" fill="#64748b" text-anchor="middle">[wsel = 11]</text>
+
+    <!-- Subline/word mux & write overlay -->
+    <rect x="20" y="90" width="430" height="28" rx="4" fill="#0f172a" stroke="#475569"/>
+    <text x="235" y="108" font-size="11" fill="#cbd5e1" text-anchor="middle">Word MUX [3:2] &amp; Write Overlay: (req_we &amp;&amp; beat == a_word) ? req_wdata : mem_rdata</text>
+  </g>
+
+  <!-- Right: Memory Interface Box -->
+  <g transform="translate(780, 215)" filter="url(#shadow)">
+    <rect width="280" height="320" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="140" y="30" font-size="16" font-weight="700" fill="#f59e0b" text-anchor="middle">Main Memory Model</text>
+    <path d="M 20 42 L 260 42" stroke="#334155" stroke-width="1"/>
+
+    <text x="25" y="70" font-size="13" font-weight="600" fill="#fde68a">mem_req</text>
+    <text x="255" y="70" font-size="11" fill="#64748b" text-anchor="end">out (1b)</text>
+
+    <text x="25" y="100" font-size="13" font-weight="600" fill="#fde68a">mem_we</text>
+    <text x="255" y="100" font-size="11" fill="#64748b" text-anchor="end">out (1=W, 0=R)</text>
+
+    <text x="25" y="130" font-size="13" font-weight="600" fill="#fde68a">mem_addr [31:0]</text>
+    <text x="255" y="130" font-size="11" fill="#64748b" text-anchor="end">out (word addr)</text>
+
+    <text x="25" y="160" font-size="13" font-weight="600" fill="#fde68a">mem_wdata [31:0]</text>
+    <text x="255" y="160" font-size="11" fill="#64748b" text-anchor="end">out</text>
+
+    <path d="M 20 180 L 260 180" stroke="#334155" stroke-width="1"/>
+
+    <text x="25" y="210" font-size="13" font-weight="600" fill="#38bdf8">mem_rdata [31:0]</text>
+    <text x="255" y="210" font-size="11" fill="#64748b" text-anchor="end">in</text>
+
+    <text x="25" y="240" font-size="13" font-weight="600" fill="#38bdf8">mem_ready</text>
+    <text x="255" y="240" font-size="11" fill="#64748b" text-anchor="end">in (1b pulse/word)</text>
+
+    <rect x="20" y="265" width="240" height="42" rx="6" fill="#0f172a" stroke="#334155"/>
+    <text x="140" y="283" font-size="11" font-weight="600" fill="#cbd5e1" text-anchor="middle">Fixed Access Latency (L = 4 cycles)</text>
+    <text x="140" y="298" font-size="10" fill="#94a3b8" text-anchor="middle">Burst Refill: 4 words in ascending order</text>
+  </g>
+
+  <!-- Bottom: Controller FSM & Path Overview -->
+  <g transform="translate(40, 560)" filter="url(#shadow)">
+    <rect width="1020" height="235" rx="10" fill="#1e293b" stroke="#6366f1" stroke-width="1.5"/>
+    <text x="30" y="30" font-size="16" font-weight="700" fill="#818cf8">Controller FSM States &amp; Policy Multiplexing</text>
+    
+    <!-- State Pills -->
+    <g transform="translate(30, 48)">
+      <!-- IDLE -->
+      <rect x="0" y="0" width="175" height="100" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="87" y="24" font-size="13" font-weight="700" fill="#38bdf8" text-anchor="middle">S_IDLE (0)</text>
+      <text x="87" y="44" font-size="10" fill="#cbd5e1" text-anchor="middle">Sample cpu_req</text>
+      <text x="87" y="60" font-size="10" fill="#94a3b8" text-anchor="middle">Latch addr, wdata, we</text>
+      <text x="87" y="78" font-size="9" fill="#64748b" text-anchor="middle">busy &lt;= 0</text>
+
+      <!-- COMPARE -->
+      <rect x="195" y="0" width="180" height="100" rx="8" fill="#0f172a" stroke="#818cf8" stroke-width="1.5"/>
+      <text x="285" y="24" font-size="13" font-weight="700" fill="#818cf8" text-anchor="middle">S_COMPARE (1)</text>
+      <text x="285" y="44" font-size="10" fill="#cbd5e1" text-anchor="middle">Tag lookup &amp; hit check</text>
+      <text x="285" y="60" font-size="10" fill="#94a3b8" text-anchor="middle">hit_count++ / miss_count++</text>
+      <text x="285" y="78" font-size="9" fill="#fde68a" text-anchor="middle">Branch on op &amp; policy</text>
+
+      <!-- ALLOCATE -->
+      <rect x="395" y="0" width="190" height="100" rx="8" fill="#0f172a" stroke="#34d399" stroke-width="1.5"/>
+      <text x="490" y="24" font-size="13" font-weight="700" fill="#34d399" text-anchor="middle">S_ALLOCATE (2)</text>
+      <text x="490" y="44" font-size="10" fill="#cbd5e1" text-anchor="middle">Burst fetch 4 words</text>
+      <text x="490" y="60" font-size="10" fill="#94a3b8" text-anchor="middle">Overlay on WA=1</text>
+      <text x="490" y="78" font-size="9" fill="#6ee7b7" text-anchor="middle">Set valid &amp; store tag</text>
+
+      <!-- WRITE -->
+      <rect x="605" y="0" width="180" height="100" rx="8" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5"/>
+      <text x="695" y="24" font-size="13" font-weight="700" fill="#fbbf24" text-anchor="middle">S_WRITE (3)</text>
+      <text x="695" y="44" font-size="10" fill="#cbd5e1" text-anchor="middle">Write-through to mem</text>
+      <text x="695" y="60" font-size="10" fill="#94a3b8" text-anchor="middle">Wait mem_ready</text>
+      <text x="695" y="78" font-size="9" fill="#fde68a" text-anchor="middle">Clear mem_req/we</text>
+
+      <!-- RESPOND -->
+      <rect x="805" y="0" width="155" height="100" rx="8" fill="#0f172a" stroke="#ec4899" stroke-width="1.5"/>
+      <text x="882" y="24" font-size="13" font-weight="700" fill="#ec4899" text-anchor="middle">S_RESPOND (4)</text>
+      <text x="882" y="44" font-size="10" fill="#cbd5e1" text-anchor="middle">Pulse cpu_ready (1 cyc)</text>
+      <text x="882" y="60" font-size="10" fill="#94a3b8" text-anchor="middle">cpu_rdata valid</text>
+      <text x="882" y="78" font-size="9" fill="#f472b6" text-anchor="middle">Next cyc =&gt; S_IDLE</text>
+    </g>
+
+    <!-- Policy Summary Footer -->
+    <g transform="translate(30, 165)">
+      <rect width="960" height="52" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="20" y="22" font-size="12" font-weight="600" fill="#f8fafc">Policy Rules:</text>
+      <text x="110" y="22" font-size="11" fill="#cbd5e1"><tspan font-weight="700" fill="#38bdf8">Read Hit:</tspan> 3 cycles (IDLE -&gt; COMPARE -&gt; RESPOND). No memory traffic.</text>
+      <text x="110" y="38" font-size="11" fill="#cbd5e1"><tspan font-weight="700" fill="#34d399">Read Miss:</tspan> 23 cycles (IDLE -&gt; COMPARE -&gt; ALLOCATE (4 words) -&gt; RESPOND). 4 mem reads.</text>
+      <text x="560" y="22" font-size="11" fill="#cbd5e1"><tspan font-weight="700" fill="#fbbf24">Write (WA=0):</tspan> 8 cycles. Write hit updates line + mem; miss bypasses line.</text>
+      <text x="560" y="38" font-size="11" fill="#cbd5e1"><tspan font-weight="700" fill="#f43f5e">Write Miss (WA=1):</tspan> 28 cycles (refill 4 words + overlay word + write-through).</text>
+    </g>
+  </g>
+</svg>
