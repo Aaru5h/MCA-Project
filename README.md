@@ -16,7 +16,7 @@ Course: Modern Computer Architecture, Newton School of Technology, Rishihood Uni
 
 ## Remaining work and ownership
 
-The work is split into four substantial packages across Deepak, Kushagra, Meet and Utkarsh. Each package includes implementation, validation and documentation. Aarush's Phase I foundation is the starting point. Deepak's, Kushagra's and Meet's packages are implemented below; Utkarsh's package remains pending.
+The work is split into four substantial packages across Deepak, Kushagra, Meet and Utkarsh. Each package includes implementation, validation and documentation. Aarush's Phase I foundation is the starting point. Deepak's, Kushagra's and Meet's packages are implemented below. Utkarsh's performance accounting and measured baseline are implemented; the IEEE report and video delivery remain pending.
 
 ### Deepak — RTL, memory interface and synthesis (implemented)
 
@@ -42,13 +42,13 @@ The work is split into four substantial packages across Deepak, Kushagra, Meet a
 - Created synthesizable cache datapath architecture and controller FSM diagrams in [`docs/diagrams/`](docs/diagrams/README.md), strictly consistent with Deepak's final RTL.
 - Implemented `tb/tb_waveforms.v` and `scripts/generate_waveforms.py`, capturing VCD traces and annotating 7 execution scenarios (read hit, read miss, conflict eviction, write hit/miss under both policies, and mid-transaction reset recovery) in [`docs/waveforms/`](docs/waveforms/README.md).
 
-### Utkarsh — Performance accounting, baseline and final delivery
+### Utkarsh — Performance accounting and baseline (implemented); final delivery pending
 
-- Correct `tb/tb_trace.v` performance accounting: report read hits, read misses and writes separately, calculate a weighted average for mixed traffic and label estimated timing values explicitly.
-- Implement a runnable no-cache benchmark using the same memory model, traces and request/completion timing convention. Check simple hand-calculable cases before Meet uses it for sweeps.
-- Document metric formulas and baseline assumptions in `docs/results/`, including the distinction between read AMAT and the average cost of all accesses.
-- Assemble the IEEE report source and PDF in `report/` using each owner's technical section, measured results and figures; check that claims match the saved evidence.
-- Update `docs/video_script.md` to match the final implementation and team roles, coordinate each member's segment, assemble the recording and add working report/video links to the README. Each member records and explains their own work.
+- Corrected `tb/tb_trace.v` read AMAT and mixed-traffic accounting, with separate read/write hit/miss counts and cycle sums, measured averages, explicit estimates and `N/A`/JSON `null` for unobserved classes.
+- Added `tb/tb_no_cache.v` and `scripts/benchmark.py` to measure the same traces against the unchanged memory model using the controller's request/completion convention. Comparisons use measured integer cycle totals.
+- Added `scripts/validate_performance.py`: 336 hand-calculable cases across 48 configurations, 64 workload comparisons and four invalid-address checks pass. The existing five directed configurations and 32 trace comparisons also pass without rewriting their reports.
+- Documented formulas, baseline assumptions and reproduction commands in [performance metrics](docs/results/performance_metrics.md), with saved measurements and source hashes in [Utkarsh's results](docs/results/utkarsh/README.md). These supply the accounting and baseline handoff for experiment integration.
+- Pending: IEEE report source/PDF, video script and recording, and published delivery links. Each member records and explains their own work.
 
 ### Integration and completion
 
@@ -185,6 +185,18 @@ python3 scripts/trace_gen.py --generate-suite
 
 Detailed verification matrices and reproduction commands are documented in [`docs/verification/README.md`](docs/verification/README.md).
 
+### Measured cache/no-cache benchmark
+
+Measure all eight supplied traces with the cache and an interface-matched no-cache path:
+
+```bash
+python3 -B scripts/benchmark.py
+python3 -B scripts/benchmark.py traces/mixed_rw.trace --write-allocate 1
+python3 -B scripts/validate_performance.py
+```
+
+The comparison runs both Verilog testbenches with the same memory, trace and timing convention. It reports measured read AMAT, the weighted average across reads and writes, and speedup from measured total cycles. [Metric definitions](docs/results/performance_metrics.md) explain the baseline overhead and undefined values. [Saved evidence](docs/results/utkarsh/README.md) includes 400 measured comparisons and source hashes. The testbench's legacy no-cache estimate remains explicitly labelled; the comparison uses the runnable baseline.
+
 ### Performance sweeps and waveform generation
 
 Run multi-parameter sweeps across geometries, latencies, policies, and workloads, and render visual plots:
@@ -228,13 +240,13 @@ Measured at memory latency 4, 1 KB / 16 B:
 | smoke | 14 | 57.14% | 10.86 |
 | seq_check (2 KB sequential) | 512 | 75.00% | 8.00 |
 
-The configuration check (512 B, and 32 B blocks) is in [`docs/results/config_check.md`](docs/results/config_check.md). Full workload results, corrected AMAT versus a measured no-cache baseline and the size/block sweep remain pending. Generic synthesis for both allocation policies and additional controller latency measurements are now available in the linked documentation.
+The configuration check (512 B, and 32 B blocks) is in [`docs/results/config_check.md`](docs/results/config_check.md). Corrected read AMAT and measured no-cache comparisons are available in [Utkarsh's results](docs/results/utkarsh/README.md). Meet's size/block sweeps are linked in the performance section above. Generic synthesis for both allocation policies and additional controller latency measurements are available in the linked documentation.
 
-For read traffic, **AMAT** = read-hit time + read-miss rate × read-miss penalty. The current testbench uses the overall miss rate in this formula, which is incorrect for mixed read/write traffic. Its separately measured average cycles per access includes writes. Corrected accounting and a measured no-cache baseline are assigned to Utkarsh; the existing baseline output is an estimate. Timing values also use fallbacks when a run has no read hits or read misses.
+For read traffic, **AMAT** is measured read cycles divided by reads, equivalent to read-hit time + read-miss rate × read-miss penalty for fixed class costs. The separately measured average cycles per access includes writes. At the default configuration, `smoke.trace` measures read AMAT **11.33** and all-access average **10.86** cycles; `mixed_rw.trace` measures **4.94** and **6.03** respectively. The runnable no-cache benchmark measures **8.00** cycles/access. Unobserved class timings are `N/A`, and write-only traces have no read AMAT. Full formulas and assumptions are in [performance metrics](docs/results/performance_metrics.md).
 
 ## Known simplifications
 
-Write-through only (no dirty bits), one request at a time (no pipelining), a fixed-latency memory model, and a 16 KB memory window in the testbench. The shared testbench's policy parameter integration, permanent verification and performance-accounting corrections remain assigned to their owners.
+Write-through only (no dirty bits), one request at a time (no pipelining), a fixed-latency memory model, and a 16 KB memory window in the testbench. The measured baseline retains the controller's CPU acceptance, dispatch and response overhead. Reported speedup compares request-service cycles under those interfaces; it is not an application execution-time measurement.
 
 ## Links
 
