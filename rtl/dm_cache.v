@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 // =============================================================================
 // dm_cache.v
-// Direct-mapped cache controller (write-through, no-write-allocate)
+// Direct-mapped cache controller (write-through, selectable write allocation)
 //
 // Default configuration: 1 KB cache, 16-byte blocks, 32-bit byte addresses
 //   lines        = CACHE_SIZE / BLOCK_SIZE      = 64
@@ -16,7 +16,8 @@
 // =============================================================================
 module dm_cache #(
     parameter CACHE_SIZE = 1024,   // bytes, power of two
-    parameter BLOCK_SIZE = 16      // bytes, power of two, >= 4
+    parameter BLOCK_SIZE = 16,     // bytes, power of two, >= 4
+    parameter WRITE_ALLOCATE = 0   // 0: bypass write misses; 1: refill then write
 ) (
     input  wire        clk,
     input  wire        rst_n,          // active-low synchronous reset
@@ -67,6 +68,9 @@ module dm_cache #(
             (BLOCK_SIZE & (BLOCK_SIZE - 1)) != 0 || TAG_W < 1) begin : bad_geometry
             initial $fatal(1, "Cache sizes must be powers of two: CACHE_SIZE >= BLOCK_SIZE >= 4, with a positive tag width");
         end
+        if (WRITE_ALLOCATE != 0 && WRITE_ALLOCATE != 1) begin : bad_policy
+            initial $fatal(1, "WRITE_ALLOCATE must be 0 or 1");
+        end
     endgenerate
 
     // ------------------------------------------------------------------
@@ -101,7 +105,7 @@ module dm_cache #(
     // ------------------------------------------------------------------
     localparam [2:0] S_IDLE     = 3'd0,
                      S_COMPARE  = 3'd1,
-                     S_ALLOCATE = 3'd2,   // read miss: fetch the block
+                     S_ALLOCATE = 3'd2,   // allocating miss: fetch the block
                      S_WRITE    = 3'd3,   // write-through to memory
                      S_RESPOND  = 3'd4;
 
@@ -147,9 +151,9 @@ module dm_cache #(
                 if (is_hit) hit_count  <= hit_count + 1;
                 else        miss_count <= miss_count + 1;
 
-                if (req_we) begin
-                    // write-through: memory is always updated;
-                    // the cache copy is updated only on a hit (no allocate)
+                if (req_we && (is_hit || !WRITE_ALLOCATE)) begin
+                    // Write hits update both copies. With no-write-allocate,
+                    // a write miss bypasses the cache and preserves its victim.
                     if (is_hit)
                         data_arr[a_index * WORDS_PER_B + a_word] <= req_wdata;
                     mem_req   <= 1'b1;
@@ -161,7 +165,7 @@ module dm_cache #(
                     cpu_rdata <= data_arr[a_index * WORDS_PER_B + a_word];
                     state     <= S_RESPOND;
                 end else begin
-                    // read miss: request the whole block, starting at word 0
+                    // Read miss or write-allocate miss: fetch from word 0.
                     beat     <= 0;
                     mem_req  <= 1'b1;
                     mem_we   <= 1'b0;
@@ -172,14 +176,26 @@ module dm_cache #(
             // ----------------------------------------------------------
             S_ALLOCATE: begin
                 if (mem_ready) begin
-                    data_arr[a_index * WORDS_PER_B + beat] <= mem_rdata;
-                    if (beat == a_word)
+                    // Overlay the written word while retaining its neighbors.
+                    data_arr[a_index * WORDS_PER_B + beat] <=
+                        (req_we && beat == a_word) ? req_wdata : mem_rdata;
+                    if (!req_we && beat == a_word)
                         cpu_rdata <= mem_rdata;          // forward requested word
                     if (beat == WORDS_PER_B - 1) begin
-                        mem_req            <= 1'b0;
                         tag_arr[a_index]   <= a_tag;
                         valid_arr[a_index] <= 1'b1;
-                        state              <= S_RESPOND;
+                        if (req_we) begin
+                            // The memory's ready bubble separates the last
+                            // refill beat from this write-through transaction.
+                            mem_req   <= 1'b1;
+                            mem_we    <= 1'b1;
+                            mem_addr  <= req_addr >> 2;
+                            mem_wdata <= req_wdata;
+                            state     <= S_WRITE;
+                        end else begin
+                            mem_req <= 1'b0;
+                            state   <= S_RESPOND;
+                        end
                     end else begin
                         beat     <= beat + 1'b1;
                         mem_addr <= mem_addr + 1;
