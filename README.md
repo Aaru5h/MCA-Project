@@ -16,15 +16,15 @@ Course: Modern Computer Architecture, Newton School of Technology, Rishihood Uni
 
 ## Remaining work and ownership
 
-The remaining work is split into four substantial packages across Deepak, Kushagra, Meet and Utkarsh. Each package includes implementation, validation and documentation. Aarush's existing implementation is the starting point; it still needs the checks below. The assignments below are pending work, not completed features.
+The work is split into four substantial packages across Deepak, Kushagra, Meet and Utkarsh. Each package includes implementation, validation and documentation. Aarush's Phase I foundation is the starting point. Deepak's package is implemented below; the other three packages remain pending.
 
-### Deepak — RTL, memory interface and synthesis
+### Deepak — RTL, memory interface and synthesis (implemented)
 
-- Review and harden the controller FSM, refill sequencing, write-through handshake and reset behavior in `rtl/dm_cache.v` and `rtl/main_mem.v`; resolve RTL defects exposed by verification.
-- Define and enforce supported cache geometry and memory-latency parameters, including the zero-width selector cases for 4-byte blocks and single-line caches.
-- Implement the write-allocate option planned in the video script, keeping no-write-allocate as the default. Document its refill/write sequence and coordinate policy tests with Kushagra.
-- Add a reproducible synthesis script and save tool version, target, commands, warnings and resource statistics in `docs/synthesis/`. Distinguish generic synthesis statistics from target-specific timing claims.
-- Document the CPU/memory handshake and expected hit, refill and write cycle counts. Cross-check these against Meet's latency runs and supply the RTL/synthesis section for the report.
+- Hardened the controller reset/recovery path and memory transaction latching, cancellation and latency counter.
+- Added parameter diagnostics and support for single-word blocks and single-line caches.
+- Added `WRITE_ALLOCATE=1`: a write miss refills, overlays the written word and completes write-through before responding. The default remains `WRITE_ALLOCATE=0`.
+- Added `scripts/synthesize.py` and committed generic synthesis statistics, commands, manifests and warning summaries for both policies in [`docs/synthesis/`](docs/synthesis/README.md).
+- Documented CPU/memory handshakes, reset semantics, cycle formulas and measured latency 1/2/4/8 results in [`docs/controller_memory.md`](docs/controller_memory.md) and [`docs/results/deepak_latency/`](docs/results/deepak_latency/README.md). Focused RTL and synthesized-netlist checks passed; permanent regression integration remains in Kushagra's package.
 
 ### Kushagra — Verification and workload generation
 
@@ -66,10 +66,10 @@ The remaining work is split into four substantial packages across Deepak, Kushag
 | Lines | 64 |
 | Address | 32-bit byte address |
 | Fields | tag 22 `[31:10]` · index 6 `[9:4]` · offset 4 `[3:0]` |
-| Write policy | write-through, no-write-allocate |
+| Write policy | write-through; no-write-allocate by default, optional `WRITE_ALLOCATE=1` |
 | Memory latency | 4 cycles per word (`LATENCY`) |
 
-The full derivation is in [`docs/address_fields.md`](docs/address_fields.md). Widths are derived from `CACHE_SIZE` and `BLOCK_SIZE` with `$clog2`. The documented configurations are 1 KB / 16 B, 512 B / 16 B and 1 KB / 32 B; parameter edge cases still need validation as assigned above.
+The full derivation is in [`docs/address_fields.md`](docs/address_fields.md). Widths are derived from `CACHE_SIZE` and `BLOCK_SIZE` with `$clog2`. Power-of-two configurations include single-word blocks and single-line caches; supported limits and parameter diagnostics are documented in [`docs/controller_memory.md`](docs/controller_memory.md).
 
 ## Architecture
 
@@ -97,8 +97,8 @@ The full derivation is in [`docs/address_fields.md`](docs/address_fields.md). Wi
 |---|---|
 | `IDLE` | Wait for `cpu_req`, then latch address, data and read/write |
 | `COMPARE` | Check hit; count hit or miss; choose the next state |
-| `ALLOCATE` | Read miss: fetch the 4 words of the block, then set tag and valid |
-| `WRITE` | Any write: send the word to memory (write-through). On a hit the cache copy is updated too; on a miss the cache is untouched (no allocate) |
+| `ALLOCATE` | Read miss, or write miss with allocation enabled: fetch the block, then set tag and valid. An allocating write overlays its word and proceeds to `WRITE` |
+| `WRITE` | Send the written word to memory and wait for completion. A write hit updates the cached copy; a miss preserves the victim unless write allocation is enabled |
 | `RESPOND` | Pulse `cpu_ready` for one cycle |
 
 ## Repository layout
@@ -107,7 +107,7 @@ The full derivation is in [`docs/address_fields.md`](docs/address_fields.md). Wi
 rtl/        dm_cache.v, main_mem.v
 tb/         tb_trace.v (trace-driven), tb_dm_cache.v (directed tests, to be added)
 traces/     smoke.trace, seq_check.trace (+ workload traces, to be added)
-scripts/    cache_model.py (Python reference model), trace_gen.py (to be added)
+scripts/    cache_model.py, synthesize.py, trace_gen.py (to be added)
 docs/       address_fields.md, diagrams/, waveforms/, synthesis/, results/
 report/     IEEE report PDF and source
 ```
@@ -151,6 +151,17 @@ Cross-check the hit/miss counts with the Python model:
 python3 scripts/cache_model.py traces/smoke.trace --size 1024 --block 16
 ```
 
+### Controller options and synthesis
+
+`dm_cache` accepts `WRITE_ALLOCATE=0` (default) or `1`. For write-allocation simulation without changing the shared testbench, see the [latency reproduction commands](docs/results/deepak_latency/README.md). The current Python model still models no-write-allocate only.
+
+```bash
+python3 scripts/synthesize.py --write-allocate 0
+python3 scripts/synthesize.py --write-allocate 1
+```
+
+Both default-size variants passed generic synthesis with zero warnings. [Synthesis results](docs/synthesis/README.md) describe the tool, cell counts and target limitations. These are generic resource results, with no device-specific frequency or physical area claim.
+
 ### Trace format
 
 One access per line, hex, no `0x`. Lines starting with `#` are comments.
@@ -176,13 +187,13 @@ Measured at memory latency 4, 1 KB / 16 B:
 | smoke | 14 | 57.14% | 10.86 |
 | seq_check (2 KB sequential) | 512 | 75.00% | 8.00 |
 
-The configuration check (512 B, and 32 B blocks) is in [`docs/results/config_check.md`](docs/results/config_check.md). Full trace results, AMAT versus a no-cache baseline, the size/block sweep and synthesis come in Phase II.
+The configuration check (512 B, and 32 B blocks) is in [`docs/results/config_check.md`](docs/results/config_check.md). Full workload results, corrected AMAT versus a measured no-cache baseline and the size/block sweep remain pending. Generic synthesis for both allocation policies and additional controller latency measurements are now available in the linked documentation.
 
 For read traffic, **AMAT** = read-hit time + read-miss rate × read-miss penalty. The current testbench uses the overall miss rate in this formula, which is incorrect for mixed read/write traffic. Its separately measured average cycles per access includes writes. Corrected accounting and a measured no-cache baseline are assigned to Utkarsh; the existing baseline output is an estimate. Timing values also use fallbacks when a run has no read hits or read misses.
 
 ## Known simplifications
 
-Write-through only (no dirty bits), one request at a time (no pipelining), a fixed-latency memory model, and a 16 KB memory window in the testbench.
+Write-through only (no dirty bits), one request at a time (no pipelining), a fixed-latency memory model, and a 16 KB memory window in the testbench. The shared testbench's policy parameter integration, permanent verification and performance-accounting corrections remain assigned to their owners.
 
 ## Links
 
