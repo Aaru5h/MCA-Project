@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 480" width="100%" height="100%" style="background-color: #0b1120; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <text x="40" y="38" font-size="20" font-weight="700" fill="#f8fafc">Performance Speedup: Cache vs. No-Cache Baseline</text>
+  <text x="40" y="60" font-size="12" fill="#94a3b8">Baseline: Single-word access directly to main memory (8 cycles/access at Latency 4). Speedup &gt; 1.0x indicates performance gain.</text>
+
+  <!-- Plot Area -->
+  <rect x="180" y="90" width="600" height="320" fill="#0f172a" stroke="#1e293b" rx="6"/>
+
+  <!-- Baseline 1.0x Line -->
+  <line x1="380" y1="90" x2="380" y2="410" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,4"/>
+  <text x="380" y="80" font-size="11" font-weight="700" fill="#f59e0b" text-anchor="middle">1.0x (No-Cache Baseline)</text>
+
+  <g font-size="12" fill="#cbd5e1" text-anchor="end">
+    <text x="170" y="136">sequential</text>
+    <rect x="180" y="120" width="200.0" height="24" rx="4" fill="#34d399"/>
+    <text x="390.0" y="137" font-size="11" font-weight="700" fill="#34d399" text-anchor="start">1.00x (8.0 cyc)</text>
+    <text x="170" y="174">repeated_loop</text>
+    <rect x="180" y="158" width="376.0" height="24" rx="4" fill="#34d399"/>
+    <text x="566.0" y="175" font-size="11" font-weight="700" fill="#34d399" text-anchor="start">1.88x (4.25 cyc)</text>
+    <text x="170" y="212">strided</text>
+    <rect x="180" y="196" width="70.0" height="24" rx="4" fill="#f43f5e"/>
+    <text x="260.0" y="213" font-size="11" font-weight="700" fill="#f43f5e" text-anchor="start">0.35x (23.0 cyc)</text>
+    <text x="170" y="250">conflict</text>
+    <rect x="180" y="234" width="70.0" height="24" rx="4" fill="#f43f5e"/>
+    <text x="260.0" y="251" font-size="11" font-weight="700" fill="#f43f5e" text-anchor="start">0.35x (23.0 cyc)</text>
+    <text x="170" y="288">random</text>
+    <rect x="180" y="272" width="200.0" height="24" rx="4" fill="#34d399"/>
+    <text x="390.0" y="289" font-size="11" font-weight="700" fill="#34d399" text-anchor="start">1.00x (8.0 cyc)</text>
+    <text x="170" y="326">mixed_rw</text>
+    <rect x="180" y="310" width="266.0" height="24" rx="4" fill="#34d399"/>
+    <text x="456.0" y="327" font-size="11" font-weight="700" fill="#34d399" text-anchor="start">1.33x (6.03 cyc)</text>
+    <text x="170" y="364">smoke</text>
+    <rect x="180" y="348" width="148.0" height="24" rx="4" fill="#f43f5e"/>
+    <text x="338.0" y="365" font-size="11" font-weight="700" fill="#f43f5e" text-anchor="start">0.74x (10.86 cyc)</text>
+    <text x="170" y="402">seq_check</text>
+    <rect x="180" y="386" width="200.0" height="24" rx="4" fill="#34d399"/>
+    <text x="390.0" y="403" font-size="11" font-weight="700" fill="#34d399" text-anchor="start">1.00x (8.0 cyc)</text>
+  </g>
+</svg>
