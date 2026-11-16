@@ -1,0 +1,144 @@
+{
+  "status": "PASS",
+  "owner": "Utkarsh",
+  "timing_source": "RTL simulation",
+  "command": "python3 -B scripts/validate_performance.py --output docs/results/utkarsh",
+  "timing_convention": "CPU acceptance edge through completion inclusive; idle gaps excluded",
+  "baseline": "one word per access, matching accept/dispatch/respond stages; measured L+4",
+  "tools": {
+    "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+    "vvp": "Icarus Verilog runtime version 13.0 (stable) (v13_0)"
+  },
+  "hand_configurations": 48,
+  "hand_cases": 336,
+  "workload_comparisons": 64,
+  "invalid_trace_checks": 4,
+  "raw_output_scope": "Compilation commands, latency-4 smoke/mixed workload samples, and invalid trace diagnostics; all 400 comparisons are in the CSVs",
+  "source_sha256": {
+    "rtl/dm_cache.v": "6241efa745ad51fe359f98ee6ebcab8fd7961272d6fe18a2ee4d555ed1671d2c",
+    "rtl/main_mem.v": "025a7b2f9148f6726e47abebe641ff25089d9a8c2ee5e698182d4fbd3f8e85c4",
+    "tb/tb_trace.v": "6dd9d4db8a7a3563853d9358ffabe830ec71ac1632adc0b5f47aade71231192b",
+    "tb/tb_no_cache.v": "75d23ff47a6968ac0a9475ae31deb597f118c5cacebf236ba81492bffa251f2f",
+    "scripts/benchmark.py": "0fc383ceefcef1a79e9b7fdf6496a92a2b80acf48cad7bf52c2db66b2bca391d",
+    "scripts/validate_performance.py": "0fcb06d9a5d29ef953785f6527c294a5299096245a58e47a7fd6f75753a37f2e",
+    "scripts/cache_model.py": "baa732fd872edd2144198145d7dd798d5f305eabe4c6ff05efd3371e5dc342d3",
+    "traces/conflict.trace": "b753fae0ba7a43ba9991539d1bbaae36312db0bf2f13f65b0f6ae3e6b76dc7c1",
+    "traces/mixed_rw.trace": "f75e9b06a7c1cf0bbf990738634ea51bd2ce430b5e667b06df7c00d8179b1b23",
+    "traces/random.trace": "12e9290f66a6259818a662c8498b65f70fcb548580c03ede457eec17f0b7437d",
+    "traces/repeated_loop.trace": "6a146af68e4d47edb9075a8a18674c6bb02e4f9a885d226cbfcf461f738df883",
+    "traces/seq_check.trace": "0289957792571035b6790cbbc63ae21ad906efed26604242da68f2d091f0ccd8",
+    "traces/sequential.trace": "ef693f157005fc29f3840c6db2e27e00d33e192c65ecb0ffde22b56dc561cec7",
+    "traces/smoke.trace": "213414f42b455292c6b55e8eae3196577f0f31e2af6d3f2293bb5aaf699f6f85",
+    "traces/strided.trace": "6236e6c477ea2ba5e96eec5ef2fb7981bdfeb8b2555a24ade5572c308339db0c"
+  },
+  "hand_case_inputs": {
+    "cache1024_block16_wa0": {
+      "empty": "# no requests\n",
+      "cold_read": "R 00000000\n",
+      "warm_read": "R 00000000\nR 00000000\n",
+      "write_only": "W 00000000 12345678\nW 00000000 DEADBEEF\n",
+      "write_then_read": "W 00000000 AABBCCDD\nR 00000000\n",
+      "mixed_hand": "R 00000000\nR 00000000\nW 00000000 12345678\nW 00000400 DEADBEEF\nR 00000000\nR 00000400\n",
+      "conflict_reads": "R 00000000\nR 00000400\nR 00000000\n"
+    },
+    "cache1024_block16_wa1": {
+      "empty": "# no requests\n",
+      "cold_read": "R 00000000\n",
+      "warm_read": "R 00000000\nR 00000000\n",
+      "write_only": "W 00000000 12345678\nW 00000000 DEADBEEF\n",
+      "write_then_read": "W 00000000 AABBCCDD\nR 00000000\n",
+      "mixed_hand": "R 00000000\nR 00000000\nW 00000000 12345678\nW 00000400 DEADBEEF\nR 00000000\nR 00000400\n",
+      "conflict_reads": "R 00000000\nR 00000400\nR 00000000\n"
+    },
+    "cache512_block16_wa0": {
+      "empty": "# no requests\n",
+      "cold_read": "R 00000000\n",
+      "warm_read": "R 00000000\nR 00000000\n",
+      "write_only": "W 00000000 12345678\nW 00000000 DEADBEEF\n",
+      "write_then_read": "W 00000000 AABBCCDD\nR 00000000\n",
+      "mixed_hand": "R 00000000\nR 00000000\nW 00000000 12345678\nW 00000200 DEADBEEF\nR 00000000\nR 00000200\n",
+      "conflict_reads": "R 00000000\nR 00000200\nR 00000000\n"
+    },
+    "cache512_block16_wa1": {
+      "empty": "# no requests\n",
+      "cold_read": "R 00000000\n",
+      "warm_read": "R 00000000\nR 00000000\n",
+      "write_only": "W 00000000 12345678\nW 00000000 DEADBEEF\n",
+      "write_then_read": "W 00000000 AABBCCDD\nR 00000000\n",
+      "mixed_hand": "R 00000000\nR 00000000\nW 00000000 12345678\nW 00000200 DEADBEEF\nR 00000000\nR 00000200\n",
+      "conflict_reads": "R 00000000\nR 00000200\nR 00000000\n"
+    },
+    "cache1024_block32_wa0": {
+      "empty": "# no requests\n",
+      "cold_read": "R 00000000\n",
+      "warm_read": "R 00000000\nR 00000000\n",
+      "write_only": "W 00000000 12345678\nW 00000000 DEADBEEF\n",
+      "write_then_read": "W 00000000 AABBCCDD\nR 00000000\n",
+      "mixed_hand": "R 00000000\nR 00000000\nW 00000000 12345678\nW 00000400 DEADBEEF\nR 00000000\nR 00000400\n",
+      "conflict_reads": "R 00000000\nR 00000400\nR 00000000\n"
+    },
+    "cache1024_block32_wa1": {
+      "empty": "# no requests\n",
+      "cold_read": "R 00000000\n",
+      "warm_read": "R 00000000\nR 00000000\n",
+      "write_only": "W 00000000 12345678\nW 00000000 DEADBEEF\n",
+      "write_then_read": "W 00000000 AABBCCDD\nR 00000000\n",
+      "mixed_hand": "R 00000000\nR 00000000\nW 00000000 12345678\nW 00000400 DEADBEEF\nR 00000000\nR 00000400\n",
+      "conflict_reads": "R 00000000\nR 00000400\nR 00000000\n"
+    },
+    "cache64_block4_wa0": {
+      "empty": "# no requests\n",
+      "cold_read": "R 00000000\n",
+      "warm_read": "R 00000000\nR 00000000\n",
+      "write_only": "W 00000000 12345678\nW 00000000 DEADBEEF\n",
+      "write_then_read": "W 00000000 AABBCCDD\nR 00000000\n",
+      "mixed_hand": "R 00000000\nR 00000000\nW 00000000 12345678\nW 00000040 DEADBEEF\nR 00000000\nR 00000040\n",
+      "conflict_reads": "R 00000000\nR 00000040\nR 00000000\n"
+    },
+    "cache64_block4_wa1": {
+      "empty": "# no requests\n",
+      "cold_read": "R 00000000\n",
+      "warm_read": "R 00000000\nR 00000000\n",
+      "write_only": "W 00000000 12345678\nW 00000000 DEADBEEF\n",
+      "write_then_read": "W 00000000 AABBCCDD\nR 00000000\n",
+      "mixed_hand": "R 00000000\nR 00000000\nW 00000000 12345678\nW 00000040 DEADBEEF\nR 00000000\nR 00000040\n",
+      "conflict_reads": "R 00000000\nR 00000040\nR 00000000\n"
+    },
+    "cache16_block16_wa0": {
+      "empty": "# no requests\n",
+      "cold_read": "R 00000000\n",
+      "warm_read": "R 00000000\nR 00000000\n",
+      "write_only": "W 00000000 12345678\nW 00000000 DEADBEEF\n",
+      "write_then_read": "W 00000000 AABBCCDD\nR 00000000\n",
+      "mixed_hand": "R 00000000\nR 00000000\nW 00000000 12345678\nW 00000010 DEADBEEF\nR 00000000\nR 00000010\n",
+      "conflict_reads": "R 00000000\nR 00000010\nR 00000000\n"
+    },
+    "cache16_block16_wa1": {
+      "empty": "# no requests\n",
+      "cold_read": "R 00000000\n",
+      "warm_read": "R 00000000\nR 00000000\n",
+      "write_only": "W 00000000 12345678\nW 00000000 DEADBEEF\n",
+      "write_then_read": "W 00000000 AABBCCDD\nR 00000000\n",
+      "mixed_hand": "R 00000000\nR 00000000\nW 00000000 12345678\nW 00000010 DEADBEEF\nR 00000000\nR 00000010\n",
+      "conflict_reads": "R 00000000\nR 00000010\nR 00000000\n"
+    },
+    "cache4_block4_wa0": {
+      "empty": "# no requests\n",
+      "cold_read": "R 00000000\n",
+      "warm_read": "R 00000000\nR 00000000\n",
+      "write_only": "W 00000000 12345678\nW 00000000 DEADBEEF\n",
+      "write_then_read": "W 00000000 AABBCCDD\nR 00000000\n",
+      "mixed_hand": "R 00000000\nR 00000000\nW 00000000 12345678\nW 00000004 DEADBEEF\nR 00000000\nR 00000004\n",
+      "conflict_reads": "R 00000000\nR 00000004\nR 00000000\n"
+    },
+    "cache4_block4_wa1": {
+      "empty": "# no requests\n",
+      "cold_read": "R 00000000\n",
+      "warm_read": "R 00000000\nR 00000000\n",
+      "write_only": "W 00000000 12345678\nW 00000000 DEADBEEF\n",
+      "write_then_read": "W 00000000 AABBCCDD\nR 00000000\n",
+      "mixed_hand": "R 00000000\nR 00000000\nW 00000000 12345678\nW 00000004 DEADBEEF\nR 00000000\nR 00000004\n",
+      "conflict_reads": "R 00000000\nR 00000004\nR 00000000\n"
+    }
+  }
+}

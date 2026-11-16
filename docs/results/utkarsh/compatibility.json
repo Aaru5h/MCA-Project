@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "directed_configurations": 5,
+  "trace_comparisons": 32,
+  "note": "Existing runner functions executed without save_reports; teammate reports were not rewritten. Timing correctness is checked separately by validate_performance.py.",
+  "source_sha256": {
+    "scripts/run_regression.py": "ddac55ad5363f87615531cdf87c08f33cc67cf8b5eb42bb488c6286878a085f2",
+    "tb/tb_dm_cache.v": "d7fe766424b76b5d620152ee69b2402ff0fc01299a7649052bb983e5c69bd1d0"
+  }
+}

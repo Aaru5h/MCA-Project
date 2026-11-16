@@ -1,0 +1,1187 @@
+[
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_0.vvp",
+      "-Ptb_trace.LATENCY=1",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_no_cache",
+      "-o",
+      "/private<BUILD>/benchmark_1.vvp",
+      "-Ptb_no_cache.LATENCY=1",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_no_cache.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_2.vvp",
+      "-Ptb_trace.LATENCY=1",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_3.vvp",
+      "-Ptb_trace.LATENCY=2",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_no_cache",
+      "-o",
+      "/private<BUILD>/benchmark_4.vvp",
+      "-Ptb_no_cache.LATENCY=2",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_no_cache.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_5.vvp",
+      "-Ptb_trace.LATENCY=2",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_6.vvp",
+      "-Ptb_trace.LATENCY=4",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_no_cache",
+      "-o",
+      "/private<BUILD>/benchmark_7.vvp",
+      "-Ptb_no_cache.LATENCY=4",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_no_cache.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_8.vvp",
+      "-Ptb_trace.LATENCY=4",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_9.vvp",
+      "-Ptb_trace.LATENCY=8",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_no_cache",
+      "-o",
+      "/private<BUILD>/benchmark_10.vvp",
+      "-Ptb_no_cache.LATENCY=8",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_no_cache.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_11.vvp",
+      "-Ptb_trace.LATENCY=8",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_12.vvp",
+      "-Ptb_trace.LATENCY=1",
+      "-Ptb_trace.CACHE_SIZE=512",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_13.vvp",
+      "-Ptb_trace.LATENCY=1",
+      "-Ptb_trace.CACHE_SIZE=512",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_14.vvp",
+      "-Ptb_trace.LATENCY=2",
+      "-Ptb_trace.CACHE_SIZE=512",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_15.vvp",
+      "-Ptb_trace.LATENCY=2",
+      "-Ptb_trace.CACHE_SIZE=512",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_16.vvp",
+      "-Ptb_trace.LATENCY=4",
+      "-Ptb_trace.CACHE_SIZE=512",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_17.vvp",
+      "-Ptb_trace.LATENCY=4",
+      "-Ptb_trace.CACHE_SIZE=512",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_18.vvp",
+      "-Ptb_trace.LATENCY=8",
+      "-Ptb_trace.CACHE_SIZE=512",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_19.vvp",
+      "-Ptb_trace.LATENCY=8",
+      "-Ptb_trace.CACHE_SIZE=512",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_20.vvp",
+      "-Ptb_trace.LATENCY=1",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=32",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_21.vvp",
+      "-Ptb_trace.LATENCY=1",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=32",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_22.vvp",
+      "-Ptb_trace.LATENCY=2",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=32",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_23.vvp",
+      "-Ptb_trace.LATENCY=2",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=32",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_24.vvp",
+      "-Ptb_trace.LATENCY=4",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=32",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_25.vvp",
+      "-Ptb_trace.LATENCY=4",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=32",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_26.vvp",
+      "-Ptb_trace.LATENCY=8",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=32",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_27.vvp",
+      "-Ptb_trace.LATENCY=8",
+      "-Ptb_trace.CACHE_SIZE=1024",
+      "-Ptb_trace.BLOCK_SIZE=32",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_28.vvp",
+      "-Ptb_trace.LATENCY=1",
+      "-Ptb_trace.CACHE_SIZE=64",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_29.vvp",
+      "-Ptb_trace.LATENCY=1",
+      "-Ptb_trace.CACHE_SIZE=64",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_30.vvp",
+      "-Ptb_trace.LATENCY=2",
+      "-Ptb_trace.CACHE_SIZE=64",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_31.vvp",
+      "-Ptb_trace.LATENCY=2",
+      "-Ptb_trace.CACHE_SIZE=64",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_32.vvp",
+      "-Ptb_trace.LATENCY=4",
+      "-Ptb_trace.CACHE_SIZE=64",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_33.vvp",
+      "-Ptb_trace.LATENCY=4",
+      "-Ptb_trace.CACHE_SIZE=64",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_34.vvp",
+      "-Ptb_trace.LATENCY=8",
+      "-Ptb_trace.CACHE_SIZE=64",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_35.vvp",
+      "-Ptb_trace.LATENCY=8",
+      "-Ptb_trace.CACHE_SIZE=64",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_36.vvp",
+      "-Ptb_trace.LATENCY=1",
+      "-Ptb_trace.CACHE_SIZE=16",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_37.vvp",
+      "-Ptb_trace.LATENCY=1",
+      "-Ptb_trace.CACHE_SIZE=16",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_38.vvp",
+      "-Ptb_trace.LATENCY=2",
+      "-Ptb_trace.CACHE_SIZE=16",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_39.vvp",
+      "-Ptb_trace.LATENCY=2",
+      "-Ptb_trace.CACHE_SIZE=16",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_40.vvp",
+      "-Ptb_trace.LATENCY=4",
+      "-Ptb_trace.CACHE_SIZE=16",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_41.vvp",
+      "-Ptb_trace.LATENCY=4",
+      "-Ptb_trace.CACHE_SIZE=16",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_42.vvp",
+      "-Ptb_trace.LATENCY=8",
+      "-Ptb_trace.CACHE_SIZE=16",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_43.vvp",
+      "-Ptb_trace.LATENCY=8",
+      "-Ptb_trace.CACHE_SIZE=16",
+      "-Ptb_trace.BLOCK_SIZE=16",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_44.vvp",
+      "-Ptb_trace.LATENCY=1",
+      "-Ptb_trace.CACHE_SIZE=4",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_45.vvp",
+      "-Ptb_trace.LATENCY=1",
+      "-Ptb_trace.CACHE_SIZE=4",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_46.vvp",
+      "-Ptb_trace.LATENCY=2",
+      "-Ptb_trace.CACHE_SIZE=4",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_47.vvp",
+      "-Ptb_trace.LATENCY=2",
+      "-Ptb_trace.CACHE_SIZE=4",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_48.vvp",
+      "-Ptb_trace.LATENCY=4",
+      "-Ptb_trace.CACHE_SIZE=4",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_49.vvp",
+      "-Ptb_trace.LATENCY=4",
+      "-Ptb_trace.CACHE_SIZE=4",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_50.vvp",
+      "-Ptb_trace.LATENCY=8",
+      "-Ptb_trace.CACHE_SIZE=4",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=0",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "iverilog",
+      "-g2012",
+      "-Wall",
+      "-s",
+      "tb_trace",
+      "-o",
+      "/private<BUILD>/benchmark_51.vvp",
+      "-Ptb_trace.LATENCY=8",
+      "-Ptb_trace.CACHE_SIZE=4",
+      "-Ptb_trace.BLOCK_SIZE=4",
+      "-Ptb_trace.WRITE_ALLOCATE=1",
+      "<REPO>/rtl/dm_cache.v",
+      "<REPO>/rtl/main_mem.v",
+      "<REPO>/tb/tb_trace.v"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "vvp",
+      "/private<BUILD>/benchmark_6.vvp",
+      "+TRACE=<REPO>/traces/mixed_rw.trace"
+    ],
+    "stdout": "------------------------------------------------------------\ntrace         : <REPO>/traces/mixed_rw.trace\nconfig        : 1024 B cache, 16 B blocks, memory latency 4, write allocate 0\naddress fields: tag 22 | index 6 | offset 4 bits  (64 lines)\naccesses      : 256  (reads 165, writes 91)\nhits / misses : 227 / 29\nhit rate      : 88.67 %   miss rate: 11.33 %\nread hits       : 149 accesses, 447 cycles, 3.00 cycles/access (measured)\nread misses     : 16 accesses, 368 cycles, 23.00 cycles/access (measured)\nwrite hits      : 78 accesses, 624 cycles, 8.00 cycles/access (measured)\nwrite misses    : 13 accesses, 104 cycles, 8.00 cycles/access (measured)\nhit time      : 3.00 cycles (read hits, measured)\nread-miss time: 23.00 cycles (measured)\nmiss penalty  : 20.00 cycles (difference of measured read-class means)\nwrite time    : 8.00 cycles (write-through, measured)\navg cycles    : 6.03 per access (measured, reads and writes)\nread miss rate: 9.70 % (read misses / reads)\nAMAT          : 4.94 cycles (measured read cycles / reads)\nno-cache      : 8.00 cycles per access (ESTIMATED: L + 4; use tb_no_cache for measurement)\nDATA CHECK PASSED\nCSV,<REPO>/traces/mixed_rw.trace,1024,16,4,256,227,29,88.67,6.03,4.94,8.00\nMETRICS,{\"schema_version\":1,\"engine\":\"cache\",\"cache_size\":1024,\"block_size\":16,\"latency\":4,\"write_allocate\":0,\"accesses\":256,\"reads\":165,\"writes\":91,\"hits\":227,\"misses\":29,\"total_cycles\":1543,\"rd_hits\":149,\"rd_misses\":16,\"wr_hits\":78,\"wr_misses\":13,\"rd_hit_cycles\":447,\"rd_miss_cycles\":368,\"wr_hit_cycles\":624,\"wr_miss_cycles\":104,\"avg_cycles\":6.027344,\"read_amat\":4.939394,\"read_hit_avg_cycles\":3.000000,\"read_miss_avg_cycles\":23.000000,\"write_avg_cycles\":8.000000,\"no_cache_estimate_cycles\":8.000000}\n<REPO>/tb/tb_trace.v:285: $finish called at 18020000 (1ps)\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "vvp",
+      "/private<BUILD>/benchmark_7.vvp",
+      "+TRACE=<REPO>/traces/mixed_rw.trace"
+    ],
+    "stdout": "------------------------------------------------------------\ntrace         : <REPO>/traces/mixed_rw.trace\nno-cache      : interface-matched single-word memory, latency 4\naccesses      : 256 (reads 165, writes 91)\ntotal cycles  : 2048 (measured)\navg cycles    : 8.00 per access (measured)\nDATA CHECK PASSED\nMETRICS,{\"schema_version\":1,\"engine\":\"no_cache\",\"latency\":4,\"accesses\":256,\"reads\":165,\"writes\":91,\"total_cycles\":2048,\"read_cycles\":1320,\"write_cycles\":728,\"memory_transactions\":256,\"avg_cycles\":8.000000,\"read_amat\":8.000000,\"write_avg_cycles\":8.000000}\n<REPO>/tb/tb_no_cache.v:192: $finish called at 23070000 (1ps)\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "vvp",
+      "/private<BUILD>/benchmark_6.vvp",
+      "+TRACE=<REPO>/traces/smoke.trace"
+    ],
+    "stdout": "------------------------------------------------------------\ntrace         : <REPO>/traces/smoke.trace\nconfig        : 1024 B cache, 16 B blocks, memory latency 4, write allocate 0\naddress fields: tag 22 | index 6 | offset 4 bits  (64 lines)\naccesses      : 14  (reads 12, writes 2)\nhits / misses : 8 / 6\nhit rate      : 57.14 %   miss rate: 42.86 %\nread hits       : 7 accesses, 21 cycles, 3.00 cycles/access (measured)\nread misses     : 5 accesses, 115 cycles, 23.00 cycles/access (measured)\nwrite hits      : 1 accesses, 8 cycles, 8.00 cycles/access (measured)\nwrite misses    : 1 accesses, 8 cycles, 8.00 cycles/access (measured)\nhit time      : 3.00 cycles (read hits, measured)\nread-miss time: 23.00 cycles (measured)\nmiss penalty  : 20.00 cycles (difference of measured read-class means)\nwrite time    : 8.00 cycles (write-through, measured)\navg cycles    : 10.86 per access (measured, reads and writes)\nread miss rate: 41.67 % (read misses / reads)\nAMAT          : 11.33 cycles (measured read cycles / reads)\nno-cache      : 8.00 cycles per access (ESTIMATED: L + 4; use tb_no_cache for measurement)\nDATA CHECK PASSED\nCSV,<REPO>/traces/smoke.trace,1024,16,4,14,8,6,57.14,10.86,11.33,8.00\nMETRICS,{\"schema_version\":1,\"engine\":\"cache\",\"cache_size\":1024,\"block_size\":16,\"latency\":4,\"write_allocate\":0,\"accesses\":14,\"reads\":12,\"writes\":2,\"hits\":8,\"misses\":6,\"total_cycles\":152,\"rd_hits\":7,\"rd_misses\":5,\"wr_hits\":1,\"wr_misses\":1,\"rd_hit_cycles\":21,\"rd_miss_cycles\":115,\"wr_hit_cycles\":8,\"wr_miss_cycles\":8,\"avg_cycles\":10.857143,\"read_amat\":11.333333,\"read_hit_avg_cycles\":3.000000,\"read_miss_avg_cycles\":23.000000,\"write_avg_cycles\":8.000000,\"no_cache_estimate_cycles\":8.000000}\n<REPO>/tb/tb_trace.v:285: $finish called at 1690000 (1ps)\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "vvp",
+      "/private<BUILD>/benchmark_7.vvp",
+      "+TRACE=<REPO>/traces/smoke.trace"
+    ],
+    "stdout": "------------------------------------------------------------\ntrace         : <REPO>/traces/smoke.trace\nno-cache      : interface-matched single-word memory, latency 4\naccesses      : 14 (reads 12, writes 2)\ntotal cycles  : 112 (measured)\navg cycles    : 8.00 per access (measured)\nDATA CHECK PASSED\nMETRICS,{\"schema_version\":1,\"engine\":\"no_cache\",\"latency\":4,\"accesses\":14,\"reads\":12,\"writes\":2,\"total_cycles\":112,\"read_cycles\":96,\"write_cycles\":16,\"memory_transactions\":14,\"avg_cycles\":8.000000,\"read_amat\":8.000000,\"write_avg_cycles\":8.000000}\n<REPO>/tb/tb_no_cache.v:192: $finish called at 1290000 (1ps)\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "vvp",
+      "/private<BUILD>/benchmark_8.vvp",
+      "+TRACE=<REPO>/traces/mixed_rw.trace"
+    ],
+    "stdout": "------------------------------------------------------------\ntrace         : <REPO>/traces/mixed_rw.trace\nconfig        : 1024 B cache, 16 B blocks, memory latency 4, write allocate 1\naddress fields: tag 22 | index 6 | offset 4 bits  (64 lines)\naccesses      : 256  (reads 165, writes 91)\nhits / misses : 240 / 16\nhit rate      : 93.75 %   miss rate: 6.25 %\nread hits       : 157 accesses, 471 cycles, 3.00 cycles/access (measured)\nread misses     : 8 accesses, 184 cycles, 23.00 cycles/access (measured)\nwrite hits      : 83 accesses, 664 cycles, 8.00 cycles/access (measured)\nwrite misses    : 8 accesses, 224 cycles, 28.00 cycles/access (measured)\nhit time      : 3.00 cycles (read hits, measured)\nread-miss time: 23.00 cycles (measured)\nmiss penalty  : 20.00 cycles (difference of measured read-class means)\nwrite time    : 9.76 cycles (write-through, measured)\navg cycles    : 6.03 per access (measured, reads and writes)\nread miss rate: 4.85 % (read misses / reads)\nAMAT          : 3.97 cycles (measured read cycles / reads)\nno-cache      : 8.00 cycles per access (ESTIMATED: L + 4; use tb_no_cache for measurement)\nDATA CHECK PASSED\nCSV,<REPO>/traces/mixed_rw.trace,1024,16,4,256,240,16,93.75,6.03,3.97,8.00\nMETRICS,{\"schema_version\":1,\"engine\":\"cache\",\"cache_size\":1024,\"block_size\":16,\"latency\":4,\"write_allocate\":1,\"accesses\":256,\"reads\":165,\"writes\":91,\"hits\":240,\"misses\":16,\"total_cycles\":1543,\"rd_hits\":157,\"rd_misses\":8,\"wr_hits\":83,\"wr_misses\":8,\"rd_hit_cycles\":471,\"rd_miss_cycles\":184,\"wr_hit_cycles\":664,\"wr_miss_cycles\":224,\"avg_cycles\":6.027344,\"read_amat\":3.969697,\"read_hit_avg_cycles\":3.000000,\"read_miss_avg_cycles\":23.000000,\"write_avg_cycles\":9.758242,\"no_cache_estimate_cycles\":8.000000}\n<REPO>/tb/tb_trace.v:285: $finish called at 18020000 (1ps)\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "vvp",
+      "/private<BUILD>/benchmark_8.vvp",
+      "+TRACE=<REPO>/traces/smoke.trace"
+    ],
+    "stdout": "------------------------------------------------------------\ntrace         : <REPO>/traces/smoke.trace\nconfig        : 1024 B cache, 16 B blocks, memory latency 4, write allocate 1\naddress fields: tag 22 | index 6 | offset 4 bits  (64 lines)\naccesses      : 14  (reads 12, writes 2)\nhits / misses : 9 / 5\nhit rate      : 64.29 %   miss rate: 35.71 %\nread hits       : 8 accesses, 24 cycles, 3.00 cycles/access (measured)\nread misses     : 4 accesses, 92 cycles, 23.00 cycles/access (measured)\nwrite hits      : 1 accesses, 8 cycles, 8.00 cycles/access (measured)\nwrite misses    : 1 accesses, 28 cycles, 28.00 cycles/access (measured)\nhit time      : 3.00 cycles (read hits, measured)\nread-miss time: 23.00 cycles (measured)\nmiss penalty  : 20.00 cycles (difference of measured read-class means)\nwrite time    : 18.00 cycles (write-through, measured)\navg cycles    : 10.86 per access (measured, reads and writes)\nread miss rate: 33.33 % (read misses / reads)\nAMAT          : 9.67 cycles (measured read cycles / reads)\nno-cache      : 8.00 cycles per access (ESTIMATED: L + 4; use tb_no_cache for measurement)\nDATA CHECK PASSED\nCSV,<REPO>/traces/smoke.trace,1024,16,4,14,9,5,64.29,10.86,9.67,8.00\nMETRICS,{\"schema_version\":1,\"engine\":\"cache\",\"cache_size\":1024,\"block_size\":16,\"latency\":4,\"write_allocate\":1,\"accesses\":14,\"reads\":12,\"writes\":2,\"hits\":9,\"misses\":5,\"total_cycles\":152,\"rd_hits\":8,\"rd_misses\":4,\"wr_hits\":1,\"wr_misses\":1,\"rd_hit_cycles\":24,\"rd_miss_cycles\":92,\"wr_hit_cycles\":8,\"wr_miss_cycles\":28,\"avg_cycles\":10.857143,\"read_amat\":9.666667,\"read_hit_avg_cycles\":3.000000,\"read_miss_avg_cycles\":23.000000,\"write_avg_cycles\":18.000000,\"no_cache_estimate_cycles\":8.000000}\n<REPO>/tb/tb_trace.v:285: $finish called at 1690000 (1ps)\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "command": [
+      "vvp",
+      "/private<BUILD>/benchmark_6.vvp",
+      "+TRACE=/private<BUILD>/unaligned.trace"
+    ],
+    "stdout": "[ALIGNMENT ERROR] Line 1: Unaligned address 0x00000002 (bits [1:0] != 00)\nFATAL: <REPO>/tb/tb_trace.v:192: Unaligned trace address\n       Time: 30000  Scope: tb_trace\n",
+    "stderr": "",
+    "returncode": 1
+  },
+  {
+    "command": [
+      "vvp",
+      "/private<BUILD>/benchmark_7.vvp",
+      "+TRACE=/private<BUILD>/unaligned.trace"
+    ],
+    "stdout": "FATAL: <REPO>/tb/tb_no_cache.v:162: Unaligned trace address on line 1\n       Time: 30000  Scope: tb_no_cache\n",
+    "stderr": "",
+    "returncode": 1
+  },
+  {
+    "command": [
+      "vvp",
+      "/private<BUILD>/benchmark_6.vvp",
+      "+TRACE=/private<BUILD>/out_of_range.trace"
+    ],
+    "stdout": "[RANGE ERROR] Line 1: Address 0x00004000 exceeds memory window (4096 words)\nFATAL: <REPO>/tb/tb_trace.v:198: Trace address out of bounds\n       Time: 30000  Scope: tb_trace\n",
+    "stderr": "",
+    "returncode": 1
+  },
+  {
+    "command": [
+      "vvp",
+      "/private<BUILD>/benchmark_7.vvp",
+      "+TRACE=/private<BUILD>/out_of_range.trace"
+    ],
+    "stdout": "FATAL: <REPO>/tb/tb_no_cache.v:164: Trace address out of bounds on line 1\n       Time: 30000  Scope: tb_no_cache\n",
+    "stderr": "",
+    "returncode": 1
+  },
+  {
+    "command": [
+      "iverilog",
+      "-V"
+    ],
+    "stdout": "Icarus Verilog version 13.0 (stable) (v13_0)\n\nCopyright (c) 2000-2026 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\nIcarus Verilog Preprocessor version 13.0 (stable) (v13_0)\n\nCopyright (c) 1999-2026 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\nIcarus Verilog Parser/Elaborator version 13.0 (stable) (v13_0)\n\nCopyright (c) 1998-2026 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\n FLAGS DLL vvp.tgt\nvvp.tgt: Icarus Verilog VVP Code Generator 13.0 (stable) (v13_0)\n\nCopyright (c) 2001-2026 Stephen Williams (steve@icarus.com)\n\n  This program is free software; you can redistribute it and/or modify\n  it under the terms of the GNU General Public License as published by\n  the Free Software Foundation; either version 2 of the License, or\n  (at your option) any later version.\n\n  This program is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  GNU General Public License for more details.\n\n  You should have received a copy of the GNU General Public License along\n  with this program; if not, write to the Free Software Foundation, Inc.,\n  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n\n",
+    "stderr": "",
+    "returncode": 0
+  }
+]
