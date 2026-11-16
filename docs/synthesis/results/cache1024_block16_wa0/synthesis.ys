@@ -1,0 +1,8 @@
+read_verilog -sv "rtl/dm_cache.v"
+chparam -set CACHE_SIZE 1024 -set BLOCK_SIZE 16 -set WRITE_ALLOCATE 0 dm_cache
+hierarchy -check -top dm_cache
+synth -top dm_cache
+check -assert -nolatches
+tee -o "/Users/Deepak/Desktop/MCA-Project/docs/synthesis/generated/cache1024_block16_wa0/statistics.json" stat -json
+write_json "/Users/Deepak/Desktop/MCA-Project/docs/synthesis/generated/cache1024_block16_wa0/netlist.json"
+write_verilog -noattr "/Users/Deepak/Desktop/MCA-Project/docs/synthesis/generated/cache1024_block16_wa0/netlist.v"

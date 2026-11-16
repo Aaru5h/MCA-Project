@@ -1,0 +1,23 @@
+{
+  "tool": "Yosys 0.71+post (git sha1 5628c13240f670b97aaaca3d47940c4afb8ff572, Release, AppleClang clang++ 21.0.0.21000401)",
+  "target": "generic Yosys cells; no FPGA device, ASIC library or clock constraint",
+  "top": "dm_cache",
+  "parameters": {
+    "CACHE_SIZE": 1024,
+    "BLOCK_SIZE": 16,
+    "WRITE_ALLOCATE": 1
+  },
+  "sources": {
+    "rtl/dm_cache.v": "6241efa745ad51fe359f98ee6ebcab8fd7961272d6fe18a2ee4d555ed1671d2c"
+  },
+  "command": [
+    "/opt/homebrew/bin/yosys",
+    "-T",
+    "-s",
+    "/Users/Deepak/Desktop/MCA-Project/docs/synthesis/generated/cache1024_block16_wa1/synthesis.ys"
+  ],
+  "working_directory": "repository root",
+  "checks": "check -assert -nolatches passed",
+  "warnings": [],
+  "memory_model": "main_mem is a simulation model and is not synthesized"
+}
