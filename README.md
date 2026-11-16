@@ -251,4 +251,4 @@ Write-through only (no dirty bits), one request at a time (no pipelining), a fix
 ## Links
 
 - Phase I video: [LINK](https://drive.google.com/drive/folders/1_QyPkVoRIa9bW9kRykw4dKXffOf_pbuJ?usp=sharing)
-- IEEE report: `report/` (to be added)
+- IEEE report: [View PDF](report/MCA_Direct_Mapped_Cache_IEEE_Report.pdf)
