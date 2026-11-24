@@ -230,7 +230,7 @@ def generate_write_policy_svg():
   <g transform="translate(30, 85)" filter="url(#cardShadow)">
     <rect width="860" height="95" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
     <text x="20" y="26" font-size="14" font-weight="700" fill="#38bdf8">1. Write Hit (Either Policy) — 8 Cycles Total</text>
-    <text x="20" y="46" font-size="11" fill="#cbd5e1">FSM Path: <tspan font-weight="700" fill="#f8fafc">S_IDLE (1 cyc) &rarr; S_COMPARE (1 cyc) &rarr; S_WRITE (5 cycs) &rarr; S_RESPOND (1 cyc)</tspan></text>
+    <text x="20" y="46" font-size="11" fill="#cbd5e1">FSM Path: <tspan font-weight="700" fill="#f8fafc">S_IDLE (1 cyc) → S_COMPARE (1 cyc) → S_WRITE (5 cycs) → S_RESPOND (1 cyc)</tspan></text>
     <text x="20" y="65" font-size="11" fill="#94a3b8">Action: Updates cache word at index and simultaneously issues write-through to main memory (latency 4 + 1 ready pulse).</text>
     <rect x="680" y="20" width="160" height="35" rx="6" fill="#0369a1"/>
     <text x="760" y="42" font-size="14" font-weight="700" fill="#f0f9ff" text-anchor="middle">Cost: 8 Cycles</text>
@@ -240,7 +240,7 @@ def generate_write_policy_svg():
   <g transform="translate(30, 200)" filter="url(#cardShadow)">
     <rect width="860" height="95" rx="8" fill="#1e293b" stroke="#fbbf24" stroke-width="1.5"/>
     <text x="20" y="26" font-size="14" font-weight="700" fill="#fbbf24">2. Write Miss under No-Write-Allocate (WRITE_ALLOCATE = 0) — 8 Cycles Total</text>
-    <text x="20" y="46" font-size="11" fill="#cbd5e1">FSM Path: <tspan font-weight="700" fill="#f8fafc">S_IDLE (1 cyc) &rarr; S_COMPARE (1 cyc) &rarr; S_WRITE (5 cycs) &rarr; S_RESPOND (1 cyc)</tspan></text>
+    <text x="20" y="46" font-size="11" fill="#cbd5e1">FSM Path: <tspan font-weight="700" fill="#f8fafc">S_IDLE (1 cyc) → S_COMPARE (1 cyc) → S_WRITE (5 cycs) → S_RESPOND (1 cyc)</tspan></text>
     <text x="20" y="65" font-size="11" fill="#94a3b8">Action: Bypasses cache allocation completely. Directly performs write-through to memory. Preserves victim cache line.</text>
     <rect x="680" y="20" width="160" height="35" rx="6" fill="#78350f"/>
     <text x="760" y="42" font-size="14" font-weight="700" fill="#fef3c7" text-anchor="middle">Cost: 8 Cycles</text>
@@ -250,7 +250,7 @@ def generate_write_policy_svg():
   <g transform="translate(30, 315)" filter="url(#cardShadow)">
     <rect width="860" height="115" rx="8" fill="#1e293b" stroke="#f43f5e" stroke-width="1.5"/>
     <text x="20" y="26" font-size="14" font-weight="700" fill="#f43f5e">3. Write Miss under Write-Allocate (WRITE_ALLOCATE = 1) — 28 Cycles Total</text>
-    <text x="20" y="46" font-size="11" fill="#cbd5e1">FSM Path: <tspan font-weight="700" fill="#f8fafc">S_IDLE (1 cyc) &rarr; S_COMPARE (1 cyc) &rarr; S_ALLOCATE (20 cycs) &rarr; S_WRITE (5 cycs) &rarr; S_RESPOND (1 cyc)</tspan></text>
+    <text x="20" y="46" font-size="11" fill="#cbd5e1">FSM Path: <tspan font-weight="700" fill="#f8fafc">S_IDLE (1 cyc) → S_COMPARE (1 cyc) → S_ALLOCATE (20 cycs) → S_WRITE (5 cycs) → S_RESPOND (1 cyc)</tspan></text>
     <text x="20" y="65" font-size="11" fill="#94a3b8">Action: Fetches full 4-word block into cache; overlays written word during beat reception; commits tag/valid; then performs write-through.</text>
     <text x="20" y="85" font-size="10" fill="#fda4af">Mathematical Breakdown: 3 (FSM overhead) + 4 words × (4 + 1) [refill] + 1 word × (4 + 1) [write-through] = 28 cycles.</text>
     <rect x="680" y="20" width="160" height="35" rx="6" fill="#9f1239"/>
