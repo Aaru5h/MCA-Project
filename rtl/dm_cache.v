@@ -44,7 +44,9 @@ module dm_cache #(
     output reg  [31:0] miss_count,
     output wire        dbg_hit,        // live hit signal for waveforms
     output wire [31:0] dbg_tag,        // stored tag of the selected line
-    output wire        dbg_valid       // valid bit of the selected line
+    output wire        dbg_valid,      // valid bit of the selected line
+    output reg  [31:0] mem_reads,      // completed memory word reads
+    output reg  [31:0] mem_writes      // completed memory word writes
 );
 
     // ------------------------------------------------------------------
@@ -130,11 +132,21 @@ module dm_cache #(
             req_we     <= 0;
             hit_count  <= 0;
             miss_count <= 0;
+            mem_reads  <= 0;
+            mem_writes <= 0;
             beat       <= 0;
             for (i = 0; i < NUM_LINES; i = i + 1)
                 valid_arr[i] <= 1'b0;     // no false hits after reset
         end else begin
             cpu_ready <= 1'b0;
+
+            // Sample direction before the FSM advances to the next word.
+            if (mem_req && mem_ready) begin
+                if (mem_we)
+                    mem_writes <= mem_writes + 1'b1;
+                else
+                    mem_reads <= mem_reads + 1'b1;
+            end
 
             case (state)
             // ----------------------------------------------------------
