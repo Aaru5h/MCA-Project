@@ -1,0 +1,33 @@
+diff --git a/docs/results/performance_analysis.md b/docs/results/performance_analysis.md
+index d8618f0..e0283e0 100644
+--- a/docs/results/performance_analysis.md
++++ b/docs/results/performance_analysis.md
+@@ -151,3 +151,28 @@ The no-cache baseline assumes every request goes directly to main memory with 1
+ 
+ ### Conclusion
+ Caching provides up to **$1.88\times$ acceleration** on code with temporal locality. However, if an access pattern exhibits pathological conflict thrashing or strided memory walks that bypass spatial locality, an unmanaged cache performs worse than a simple unbuffered memory interface due to repeated wasteful burst refills. This demonstrates the critical necessity of proper cache sizing and associativity in computer system architecture.
++
++---
++
++## 8. Memory Traffic: Write-Allocate vs. No-Write-Allocate
++
++![Memory traffic under both write policies](plots/plot_memory_traffic.svg)
++
++Phase II added two counters to the controller: `mem_reads` and `mem_writes` count completed 32-bit words on the backing-memory interface. Each trace ran from reset at 1 KB, 16 B blocks and $L = 4$ under both policies ([raw CSV](memory_traffic.csv)).
++
++| Trace | Policy | Read Misses | Write Misses | `mem_reads` | `mem_writes` | Total Words |
++|---|---|:---:|:---:|:---:|:---:|:---:|
++| `mixed_rw.trace` | `WA = 0` | 16 | 13 | 64 | 91 | 155 |
++| `mixed_rw.trace` | `WA = 1` | 8 | 8 | 64 | 91 | 155 |
++| `smoke.trace` | `WA = 0` | 5 | 1 | 20 | 2 | 22 |
++| `smoke.trace` | `WA = 1` | 4 | 1 | 20 | 2 | 22 |
++| six read-only traces | either | same | 0 | same | 0 | same |
++
++### Analysis
++1. **Writes are fixed by write-through.** Every CPU write reaches memory under both policies, so `mem_writes` equals the number of CPU writes (91 in `mixed_rw.trace`).
++2. **Reads follow a simple formula.** `mem_reads` = 4 words $\times$ (read misses + `WRITE_ALLOCATE` $\times$ write misses). For `mixed_rw.trace`: $4 \times 16 = 64$ without allocation and $4 \times (8 + 8) = 64$ with it.
++3. **Same traffic, better timing.** In both mixed traces, each block that write allocation fetches on a write miss is read again soon after. Without allocation, that later read misses and fetches the same block. Total traffic is therefore unchanged; allocation only fetches the block earlier. That turns 8 read misses into hits and lowers read AMAT from 4.94 to 3.97 cycles (Section 6).
++4. **When write allocation costs more.** If written data is never read back, allocation adds traffic: an isolated cold write moves 4 read words with allocation and none without. Workloads that write large buffers without reading them back would favor no-write-allocate.
++
++### Takeaway
++For this trace set, write allocation costs no extra memory traffic and improves read latency, because the mixed workload reads what it writes. The result depends on read-after-write reuse, so no-write-allocate remains the safer default for write-streaming workloads.

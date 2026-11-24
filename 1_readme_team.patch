@@ -1,0 +1,53 @@
+diff --git a/README.md b/README.md
+index d3542f6..9876a20 100644
+--- a/README.md
++++ b/README.md
+@@ -8,15 +8,22 @@ Course: Modern Computer Architecture, Newton School of Technology, Rishihood Uni
+ 
+ | Member | Work package | Owns |
+ |---|---|---|
+-| Aarush Gupta | Existing Phase I foundation | Initial cache datapath, controller and memory prototype, trace testbench, Python model, address derivation, configuration results, README |
++| Aarush Gupta | Cache datapath, performance and repository lead | Cache datapath and first working controller/memory RTL, trace-driven testbench (`tb/tb_trace.v`), Python reference model, address-field derivation, configuration check, repository setup, README and results integration |
+ | Deepak | RTL, memory interface and synthesis | `rtl/`, synthesis scripts, `docs/synthesis/`, controller and memory timing notes |
+ | Kushagra | Verification and workload generation | `tb/tb_dm_cache.v`, testbench correctness checks, `scripts/trace_gen.py`, `traces/`, regression runner |
+ | Meet | Performance experiments and visual analysis | Sweep scripts, raw performance results, plots, `docs/diagrams/`, `docs/waveforms/` |
+ | Utkarsh | Performance accounting, baseline and final delivery | Timing metrics in `tb/tb_trace.v`, no-cache benchmark, `report/`, video script and published links |
+ 
+-## Remaining work and ownership
++## Contributions
+ 
+-The work is split into four substantial packages across Deepak, Kushagra, Meet and Utkarsh. Each package includes implementation, validation and documentation. Aarush's Phase I foundation is the starting point. Deepak's, Kushagra's and Meet's packages are implemented below. Utkarsh's performance accounting and measured baseline are implemented. The current IEEE report PDF and Phase I video are linked below.
++Each member's work, with the files they own, is listed below. Every package includes implementation, validation and documentation.
++
++### Aarush — Cache datapath, performance and repository (implemented)
++
++- Built the first working cache: the parameterized datapath in `rtl/dm_cache.v` (data, tag and valid arrays, address split and hit check), the controller states, and the fixed-latency memory model in `rtl/main_mem.v`.
++- Wrote the trace-driven, self-checking testbench `tb/tb_trace.v` and the Python reference model `scripts/cache_model.py`, and cross-checked their hit and miss counts.
++- Derived the address fields in [`docs/address_fields.md`](docs/address_fields.md) and ran the configuration check in [`docs/results/config_check.md`](docs/results/config_check.md).
++- Set up the repository and maintained this README. In Phase II, integrated the synthesis and memory-traffic results below and the traffic section of the [performance analysis](docs/results/performance_analysis.md).
+ 
+ ### Deepak — RTL, memory interface and synthesis (implemented)
+ 
+@@ -42,20 +49,13 @@ The work is split into four substantial packages across Deepak, Kushagra, Meet a
+ - Created synthesizable cache datapath architecture and controller FSM diagrams in [`docs/diagrams/`](docs/diagrams/README.md), strictly consistent with Deepak's final RTL.
+ - Implemented `tb/tb_waveforms.v` and `scripts/generate_waveforms.py`, capturing VCD traces and annotating 7 execution scenarios (read hit, read miss, conflict eviction, write hit/miss under both policies, and mid-transaction reset recovery) in [`docs/waveforms/`](docs/waveforms/README.md).
+ 
+-### Utkarsh — Performance accounting and baseline (implemented); final delivery pending
++### Utkarsh — Performance accounting, baseline and report (implemented)
+ 
+ - Corrected `tb/tb_trace.v` read AMAT and mixed-traffic accounting, with separate read/write hit/miss counts and cycle sums, measured averages, explicit estimates and `N/A`/JSON `null` for unobserved classes.
+ - Added `tb/tb_no_cache.v` and `scripts/benchmark.py` to measure the same traces against the unchanged memory model using the controller's request/completion convention. Comparisons use measured integer cycle totals.
+ - Added `scripts/validate_performance.py`: 336 hand-calculable cases across 48 configurations, 64 workload comparisons and four invalid-address checks pass. The existing five directed configurations and 32 trace comparisons also pass without rewriting their reports.
+ - Documented formulas, baseline assumptions and reproduction commands in [performance metrics](docs/results/performance_metrics.md), with saved measurements and source hashes in [Utkarsh's results](docs/results/utkarsh/README.md). These supply the accounting and baseline handoff for experiment integration.
+-- Pending: IEEE report source/PDF, video script and recording, and published delivery links. Each member records and explains their own work.
+-
+-### Integration and completion
+-
+-1. Deepak and Utkarsh agree on the timing convention; Kushagra supplies directed tests and deterministic workloads. All four can begin their package independently using the current prototype.
+-2. Kushagra validates Deepak's RTL and both allocation policies. Utkarsh validates performance accounting and the no-cache benchmark before Meet produces final sweeps.
+-3. Meet publishes reproducible results and figures. Each owner supplies their technical write-up and demo segment; Utkarsh integrates the final report and video.
+-4. A package is complete when its code or assets, reproduction commands, validation evidence and documentation are committed. Each owner updates the relevant README instructions and status when their deliverables land.
++- Wrote the IEEE report ([PDF](report/MCA_Direct_Mapped_Cache_IEEE_Report.pdf)) and the Phase I video script, and published the delivery links.
+ 
+ ## Cache parameters
+ 

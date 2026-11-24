@@ -1,0 +1,48 @@
+diff --git a/README.md b/README.md
+index 9876a20..d7c8b9f 100644
+--- a/README.md
++++ b/README.md
+@@ -224,7 +224,7 @@ R 00000040
+ W 00000444 12345678
+ ```
+ 
+-## Results so far (Phase I)
++## Phase I results
+ 
+ Measured at memory latency 4, 1 KB / 16 B:
+ 
+@@ -244,6 +244,34 @@ The configuration check (512 B, and 32 B blocks) is in [`docs/results/config_che
+ 
+ For read traffic, **AMAT** is measured read cycles divided by reads, equivalent to read-hit time + read-miss rate × read-miss penalty for fixed class costs. The separately measured average cycles per access includes writes. At the default configuration, `smoke.trace` measures read AMAT **11.33** and all-access average **10.86** cycles; `mixed_rw.trace` measures **4.94** and **6.03** respectively. The runnable no-cache benchmark measures **8.00** cycles/access. Unobserved class timings are `N/A`, and write-only traces have no read AMAT. Full formulas and assumptions are in [performance metrics](docs/results/performance_metrics.md).
+ 
++## Phase II results
++
++### Synthesis
++
++Generic Yosys synthesis of `dm_cache` (datapath, controller and the new memory-traffic counters) with 16-byte blocks. All four runs passed `check -assert -nolatches` with zero warnings. Details and reproduction commands are in [`docs/synthesis/README.md`](docs/synthesis/README.md); the chart is [`plot_synthesis_resources.svg`](docs/results/plots/plot_synthesis_resources.svg).
++
++| Cache size | `WRITE_ALLOCATE` | Generic cells | Flip-flop bits | Mux cells | Warnings |
++|---|---:|---:|---:|---:|---:|
++| 512 B | 0 | 12,797 | 5,164 | 3,579 | 0 |
++| 512 B | 1 | 12,797 | 5,164 | 3,582 | 0 |
++| 1 KB | 0 | 24,994 | 9,965 | 6,931 | 0 |
++| 1 KB | 1 | 25,080 | 9,965 | 6,906 | 0 |
++
++Halving the cache roughly halves the cell count, because the data, tag and valid arrays dominate the design. Write allocation changes the count by less than 0.4%. Yosys's generic flow has no FPGA memory primitives, so the arrays become flip-flops and multiplexers; an FPGA tool would normally map them to block or distributed RAM. **Maximum clock frequency and FPGA utilization were not measured:** Vivado was not available and no target device was specified. These counts are generic resources, not device area.
++
++### Memory traffic: write-allocate vs no-write-allocate
++
++The controller now counts completed backing-memory reads (`mem_reads`) and writes (`mem_writes`) in 32-bit words. All eight traces were run at 1 KB, 16 B blocks and latency 4 under both policies ([CSV](docs/results/memory_traffic.csv), [plot](docs/results/plots/plot_memory_traffic.svg), [notes](docs/results/memory_traffic.md)).
++
++| Trace | Policy | Read misses | Write misses | `mem_reads` | `mem_writes` | Total words |
++|---|---|---:|---:|---:|---:|---:|
++| `mixed_rw` | no-allocate | 16 | 13 | 64 | 91 | 155 |
++| `mixed_rw` | write-allocate | 8 | 8 | 64 | 91 | 155 |
++| `smoke` | no-allocate | 5 | 1 | 20 | 2 | 22 |
++| `smoke` | write-allocate | 4 | 1 | 20 | 2 | 22 |
++
++The six read-only traces are identical under both policies. Memory writes always equal CPU writes, because the cache is write-through. On these traces, write allocation does not change total traffic: every block it fetches on a write miss would otherwise have been fetched by a later read miss. It moves the refill earlier, which lowers `mixed_rw` read AMAT from 4.94 to 3.97 cycles. When written data is never read again, write allocation adds traffic: an isolated cold write moves 4 read words with allocation and none without. The full discussion is in the [performance analysis](docs/results/performance_analysis.md#8-memory-traffic-write-allocate-vs-no-write-allocate).
++
+ ## Known simplifications
+ 
+ Write-through only (no dirty bits), one request at a time (no pipelining), a fixed-latency memory model, and a 16 KB memory window in the testbench. The measured baseline retains the controller's CPU acceptance, dispatch and response overhead. Reported speedup compares request-service cycles under those interfaces; it is not an application execution-time measurement.
