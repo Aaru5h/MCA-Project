@@ -16,7 +16,7 @@ Course: Modern Computer Architecture, Newton School of Technology, Rishihood Uni
 
 ## Remaining work and ownership
 
-The work is split into four substantial packages across Deepak, Kushagra, Meet and Utkarsh. Each package includes implementation, validation and documentation. Aarush's Phase I foundation is the starting point. Deepak's, Kushagra's and Meet's packages are implemented below. Utkarsh's performance accounting and measured baseline are implemented; the IEEE report and video delivery remain pending.
+The work is split into four substantial packages across Deepak, Kushagra, Meet and Utkarsh. Each package includes implementation, validation and documentation. Aarush's Phase I foundation is the starting point. Deepak's, Kushagra's and Meet's packages are implemented below. Utkarsh's performance accounting and measured baseline are implemented. The current IEEE report PDF and Phase I video are linked below.
 
 ### Deepak — RTL, memory interface and synthesis (implemented)
 
@@ -24,7 +24,7 @@ The work is split into four substantial packages across Deepak, Kushagra, Meet a
 - Added parameter diagnostics and support for single-word blocks and single-line caches.
 - Added `WRITE_ALLOCATE=1`: a write miss refills, overlays the written word and completes write-through before responding. The default remains `WRITE_ALLOCATE=0`.
 - Added `scripts/synthesize.py` and committed generic synthesis statistics, commands, manifests and warning summaries for both policies in [`docs/synthesis/`](docs/synthesis/README.md).
-- Documented CPU/memory handshakes, reset semantics, cycle formulas and measured latency 1/2/4/8 results in [`docs/controller_memory.md`](docs/controller_memory.md) and [`docs/results/deepak_latency/`](docs/results/deepak_latency/README.md). Focused RTL and synthesized-netlist checks passed; permanent regression integration remains in Kushagra's package.
+- Documented CPU/memory handshakes, reset semantics, cycle formulas and measured latency 1/2/4/8 results in [`docs/controller_memory.md`](docs/controller_memory.md) and [`docs/results/controller_latency/`](docs/results/controller_latency/README.md). Focused RTL and synthesized-netlist checks passed. Kushagra's regression results are linked below.
 
 ### Kushagra — Verification and workload generation (implemented)
 
@@ -105,11 +105,11 @@ The full derivation is in [`docs/address_fields.md`](docs/address_fields.md). Wi
 
 ```
 rtl/        dm_cache.v, main_mem.v
-tb/         tb_trace.v (trace-driven), tb_dm_cache.v (directed tests, to be added)
-traces/     smoke.trace, seq_check.trace (+ workload traces, to be added)
-scripts/    cache_model.py, synthesize.py, trace_gen.py (to be added)
-docs/       address_fields.md, diagrams/, waveforms/, synthesis/, results/
-report/     IEEE report PDF and source
+tb/         Trace-driven, directed, no-cache, and waveform testbenches
+traces/     Eight checked-in workloads
+scripts/    Trace generation, regression, benchmarks, plots, and synthesis
+docs/       Address fields, controller timing, verification, waveforms, and results
+report/     IEEE report PDF
 ```
 
 ## How to run
@@ -153,7 +153,7 @@ python3 scripts/cache_model.py traces/smoke.trace --size 1024 --block 16
 
 ### Controller options and synthesis
 
-`dm_cache` accepts `WRITE_ALLOCATE=0` (default) or `1`. For write-allocation simulation, pass `-Ptb_trace.WRITE_ALLOCATE=1` or refer to the [latency reproduction commands](docs/results/deepak_latency/README.md).
+`dm_cache` accepts `WRITE_ALLOCATE=0` (default) or `1`. For write-allocation simulation, pass `-Ptb_trace.WRITE_ALLOCATE=1` or refer to the [latency reproduction commands](docs/results/controller_latency/README.md).
 
 ```bash
 python3 scripts/synthesize.py --write-allocate 0

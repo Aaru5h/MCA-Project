@@ -1,8 +1,8 @@
 # Performance accounting and measured no-cache baseline
 
 Owner: Utkarsh. This package implements timing accounting, a runnable no-cache
-benchmark, metric validation and saved measurements. The IEEE report and video
-remain separate, pending deliverables.
+benchmark, metric validation and saved measurements. The current report is
+available in [the report directory](../../report/).
 
 ## Reproduce
 

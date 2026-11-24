@@ -74,7 +74,7 @@ The extra `1` per memory word is the registered completion/ready handoff. It is 
 | 4 | 3 | 23 | 8 | 8 | 28 |
 | 8 | 3 | 39 | 12 | 12 | 48 |
 
-Raw outputs, CSV and reproduction commands are in [the latency results](results/deepak_latency/README.md). The known mixed-traffic AMAT and no-cache-baseline issues in the shared testbench remain assigned to Utkarsh; these results use individual operation timings, not those aggregate outputs.
+The archived latency results report individual operation timings. The current benchmark measures read AMAT and the no-cache baseline separately. [Latency measurements](results/controller_latency/README.md) · [Performance metrics](results/performance_metrics.md)
 
 ## Validation and handoff
 
@@ -85,4 +85,4 @@ Implementation checks used Icarus Verilog 13.0 and Yosys 0.71+post:
 - Focused memory checks passed at latency 1/2/4/8/65,537, including latched controls, cancellation, ready pulse width and reset/storage preservation. Invalid geometry, policy, memory parameters and out-of-range addresses were rejected.
 - Both default-size policy variants synthesized with zero warnings, passed structural/latch checks and passed focused simulation using their generated netlists. Boundary geometries also synthesized. See [synthesis evidence](synthesis/README.md).
 
-The temporary focused checks were implementation validation, not the team's permanent verification suite or a formal proof. Kushagra still owns the permanent directed tests, trace generator, policy-aware Python model and regression runner. Meet owns workload sweeps, diagrams and annotated waveforms. Utkarsh owns performance accounting, a measured no-cache benchmark and final report/video assembly. This change does not implement those packages.
+The temporary focused checks preceded the team's permanent directed tests, trace generator, policy-aware Python model, and regression runner. [Verification suite and results](verification/README.md)

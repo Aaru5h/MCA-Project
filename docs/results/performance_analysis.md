@@ -9,7 +9,7 @@
 
 This report evaluates the performance characteristics of the synthesizable direct-mapped cache controller across 136 parameter combinations. Through empirical sweeps spanning cache capacities (256 B–4096 B), block sizes (4 B–64 B), backing memory latencies (1–16 cycles), and allocation policies (`WRITE_ALLOCATE = 0` vs. `1`), we analyze the fundamental trade-offs governing cache memory design:
 
-1. **The Block Size Paradox**: While increasing line size from 16 B to 64 B increases sequential hit rates from $75.0\%$ to $93.75\%$, the Average Memory Access Time (AMAT) for sequential traffic remains precisely invariant at **8.00 cycles**. For non-contiguous access (such as strided traffic), larger blocks cause severe cache pollution and inflate access latency by up to **$360\%$** (23 cycles $\rightarrow$ 83 cycles).
+1. **The Block Size Paradox**: While increasing line size from 16 B to 64 B increases sequential hit rates from $75.0\%$ to $93.75\%$, the Average Memory Access Time (AMAT) for sequential traffic remains precisely invariant at **8.00 cycles**. For non-contiguous access (such as strided traffic), larger blocks fetch unused words and raise access latency from 23 to 83 cycles (**3.61×**) between 16 B and 64 B.
 2. **Capacity Scaling & Knee Points**: For pseudo-random traffic within a 1 KB working set, hit rate rises steeply from $26.9\%$ (256 B) to $48.0\%$ (512 B) and plateaus at $75.0\%$ at 1024 B. Expanding capacity further to 2 KB or 4 KB yields **0% marginal benefit**.
 3. **Memory Wall Vulnerability**: Workloads afflicted by conflict thrashing or strided strides exhibit a steep linear latency degradation slope of $\Delta \text{AMAT} / \Delta L = 4.0$, compared to $\Delta \text{AMAT} / \Delta L = 0.25$ for temporal loop workloads.
 4. **Write Allocation Trade-Off**: Enabling write-allocation on mixed read/write traffic with read-after-write dependencies (`mixed_rw.trace`) improves hit rate from $88.67\%$ to $93.75\%$ and lowers read AMAT from **4.94 cycles to 3.97 cycles**, demonstrating the efficacy of cache line allocation on write misses when data reuse is present.
@@ -25,7 +25,7 @@ The benchmark suite (generated via `scripts/trace_gen.py`) evaluates 6 distinct 
 | `sequential.trace` | 256 | 1024 B | High Spatial | Tests linear burst prefetching across contiguous words |
 | `repeated_loop.trace` | 128 | 128 B | High Temporal | Tests small loop kernel retention within cache lines |
 | `strided.trace` | 128 | 8192 B | Low Spatial | Stride of 64 B skips across 16 B blocks; evaluates pollution |
-| `conflict.trace` | 128 | 2048 B | Zero (Thrashing) | 3 addresses aliasing to identical line index (`0x40`) |
+| `conflict.trace` | 128 | 2048 B | Zero (Thrashing) | Three addresses sharing line index 4 at 1 KB |
 | `random.trace` | 256 | 1024 B | Pseudo-Random | Uniform random sampling inside 1 KB address space |
 | `mixed_rw.trace` | 256 | 256 B | Temporal + RAW | $35\%$ write traffic with tight read-after-write reuse |
 | `smoke.trace` | 14 | 128 B | Mixed | Cold miss, spatial hits, conflict, write hit/miss |
@@ -44,7 +44,7 @@ The benchmark suite (generated via `scripts/trace_gen.py`) evaluates 6 distinct 
 | `repeated_loop.trace` | **93.75%** (4.25 cyc) | **93.75%** (4.25 cyc) | **93.75%** (4.25 cyc) | **93.75%** (4.25 cyc) | **93.75%** (4.25 cyc) |
 | `random.trace` | 26.95% (17.61 cyc) | 48.05% (13.39 cyc) | **75.00%** (8.00 cyc) | **75.00%** (8.00 cyc) | **75.00%** (8.00 cyc) |
 | `sequential.trace` | 75.00% (8.00 cyc) | 75.00% (8.00 cyc) | 75.00% (8.00 cyc) | 75.00% (8.00 cyc) | 75.00% (8.00 cyc) |
-| `conflict.trace` | 0.00% (23.00 cyc) | 0.00% (23.00 cyc) | 0.00% (23.00 cyc) | 0.00% (23.00 cyc) | 0.00% (23.00 cyc) |
+| `conflict.trace` | 0.00% (23.00 cyc) | 0.00% (23.00 cyc) | 0.00% (23.00 cyc) | 32.81% (16.44 cyc) | 97.66% (3.47 cyc) |
 
 ### Key Findings
 - **Knee Point at Working-Set Capacity**: For `random.trace` (working set = 1024 B), the hit rate increases proportionally to the fraction of lines available:
@@ -52,7 +52,7 @@ The benchmark suite (generated via `scripts/trace_gen.py`) evaluates 6 distinct 
   - At 512 B (32 lines): Hit rate reaches $48.05\%$.
   - At 1024 B (64 lines): Working set completely fits. Hit rate caps at $75.00\%$ (the remaining misses are purely compulsory cold misses).
   - Expanding cache to 2048 B or 4096 B provides zero additional benefit, confirming that once capacity misses are eliminated, further hardware investment yields diminishing returns.
-- **Invariance of Conflict Thrashing**: Direct-mapped caches cannot resolve index aliasing regardless of total capacity when addresses differ by exact multiples of the cache size. In `conflict.trace`, three addresses alias to index `0x40`. Even at 4 KB capacity, the modulo index mapping continues to map the stride into identical sets, causing $100\%$ conflict misses ($0\%$ hit rate). Resolving this requires set associativity.
+- **Index aliasing depends on capacity.** With 16 B blocks, the three addresses in `conflict.trace` map to one line at 1 KB. At 2 KB, two still conflict. At 4 KB, all three map to distinct lines and only the first access to each block misses.
 
 ---
 
@@ -120,8 +120,8 @@ $$\text{Penalty}(L) = W \times (L + 1)$$
 |---|:---:|:---:|:---:|
 | **Overall Hits** | 227 / 256 | **240 / 256** | **+13 hits (+5.7%)** |
 | **Hit Rate** | 88.67% | **93.75%** | **+5.08 percentage points** |
-| **Read Hits** | 150 / 166 | **163 / 166** | **+13 read hits** |
-| **Read Misses** | 16 / 166 | **3 / 166** | **-13 read misses (-81%)** |
+| **Read Hits** | 149 / 165 | **157 / 165** | **+8 read hits** |
+| **Read Misses** | 16 / 165 | **8 / 165** | **-8 read misses (-50%)** |
 | **Read AMAT** | 4.94 cycles | **3.97 cycles** | **-0.97 cycles (20% faster reads)** |
 | **Average Cycles / Access** | 6.03 cycles | 6.03 cycles | Neutral (write penalty amortized) |
 
@@ -129,7 +129,7 @@ $$\text{Penalty}(L) = W \times (L + 1)$$
 1. In `mixed_rw.trace`, write operations frequently store values that are subsequently read by downstream instructions (Read-After-Write dependencies).
 2. Under **`WA = 0`**, cold write misses bypass the cache line. When the CPU subsequently reads that same address, it suffers a full **23-cycle read miss**.
 3. Under **`WA = 1`**, the write miss incurs a 28-cycle refill-plus-write operation, but installs the block into the cache. When the CPU subsequently reads the address, it hits instantly in **3 cycles**.
-4. The 13 converted read hits drastically improve read latency (from 4.94 cycles down to 3.97 cycles). While the write miss latency is higher (28 vs 8 cycles), the net access time across all operations balances out to 6.03 cycles, while delivering substantially faster read responses to the CPU pipeline.
+4. Eight additional read hits lower read AMAT from 4.94 to 3.97 cycles. The higher write-miss latency offsets that gain, leaving the all-access average at 6.03 cycles under both policies.
 
 ---
 

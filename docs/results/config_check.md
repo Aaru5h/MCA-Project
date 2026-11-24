@@ -36,7 +36,7 @@ Every run below used `tb/tb_trace.v`, memory latency 4. The hit/miss counts were
 
 ## What this shows
 
-- **Halving the cache to 512 B** changes nothing on these two traces. Both working sets fit, or stream through, the same way: the sequential trace never re-uses a block, and the smoke trace touches only a few lines. A smaller cache will start to hurt on traces with re-use over a larger footprint, such as random access. That is part of the Phase II sweep.
+- **Halving the cache to 512 B** leaves these two traces unchanged. The 2 KB sequential trace streams through both sizes, and the smoke trace touches only a few lines. The Phase II size sweep shows the effect of a larger reused working set. [Capacity scaling results](performance_analysis.md#3-cache-capacity-scaling-and-knee-point-analysis)
 - **Doubling the block to 32 B** raises the sequential hit rate from 75% to 87.5%: 1 miss then 7 hits per block instead of 1 then 3. But the average cost per access stays at 8.00 cycles, because each miss now fetches 8 words instead of 4, so the miss penalty doubles. Hit rate alone is misleading, which is why AMAT is the better single number.
 - **Write-through cost:** every write pays a full memory access (8 cycles at latency 4), hit or miss.
 
