@@ -23,6 +23,8 @@ All logic uses rising clock edges and an active-low **synchronous** reset. Drive
 
 Counters increment exactly once in `COMPARE` using the state of the cache before the access. An allocating write miss counts as one miss, not a miss plus a hit. Debug tag/hit signals refer to the latched request; a tag/data entry is meaningful only when its valid bit is set.
 
+The 32-bit `mem_reads` and `mem_writes` outputs count completed backing-memory words. On a rising edge with `mem_req && mem_ready`, exactly one counter increments according to `mem_we` on that edge. Reads count each refill word separately. Both counters clear on synchronous reset and wrap after `2**32` increments. See the [Phase II traffic results and verification handoff](results/memory_traffic.md).
+
 ## State transitions and allocation
 
 | State | Action and next state |
