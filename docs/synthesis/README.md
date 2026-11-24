@@ -2,18 +2,36 @@
 
 Owner: Deepak. The synthesis top is `dm_cache`, including the datapath, controller, counters and debug outputs. `main_mem` is the fixed-latency simulation model and is excluded from the hardware resource count.
 
+## Phase II results with memory traffic counters
+
+Synthesized the same `dm_cache` RTL with 16-byte blocks at both cache sizes and both write policies. All four runs used Yosys 0.71+post and passed `check -assert -nolatches` with zero warnings. Both 32-bit traffic outputs are present in each generated netlist.
+
+| Cache size | `WRITE_ALLOCATE` | Generic cells | Flip-flop bits | Mux cells |
+|---|---:|---:|---:|---:|
+| 512 B | 0 | 12,797 | 5,164 | 3,579 |
+| 512 B | 1 | 12,797 | 5,164 | 3,582 |
+| 1 KB | 0 | 24,994 | 9,965 | 6,931 |
+| 1 KB | 1 | 25,080 | 9,965 | 6,906 |
+
+Use [resources.csv](traffic_counters/resources.csv) for the resource chart. The [run manifest](traffic_counters/manifest.json) records the RTL hash, tool version, commands, and checks. Individual Yosys statistics are in the same directory. Flip-flop bits sum the generic DFF cell types. Muxes count the `$_MUX_` cell type. Both are subsets of total generic cells.
+
+Vivado was unavailable in the measurement environment, and the repository did not specify a target FPGA part or clock constraint. FPGA utilization and maximum frequency are therefore unmeasured. To report them later, specify the FPGA part and tool version, collect utilization for the same four configurations, and use post-route timing at the fastest tested clock that meets timing. Generic Yosys cell counts cannot supply those measurements.
+
 ## Reproduce
 
 Install Yosys, then run from the repository root:
 
 ```bash
-python3 scripts/synthesize.py --cache-size 1024 --block-size 16 --write-allocate 0
-python3 scripts/synthesize.py --cache-size 1024 --block-size 16 --write-allocate 1
+for size in 512 1024; do
+    for policy in 0 1; do
+        python3 scripts/synthesize.py --cache-size "$size" --block-size 16 --write-allocate "$policy" || exit 1
+    done
+done
 ```
 
 The script uses Python's standard library, invokes Yosys without a shell and exits unsuccessfully on synthesis or structural-check failure. `--yosys /path/to/yosys` selects another executable. `--output /path/to/output` selects an output directory, including paths containing spaces. A failed rerun removes the previous success manifest.
 
-Each run writes the following under `generated/cache1024_block16_wa0/` or `generated/cache1024_block16_wa1/`:
+Each run writes the following under its size and policy directory in `generated/`:
 
 | File | Contents |
 |---|---|
@@ -24,11 +42,11 @@ Each run writes the following under `generated/cache1024_block16_wa0/` or `gener
 | `netlist.json`, `netlist.v` | Synthesized design for inspection or simulation |
 | `run.json` | Tool version, target, source SHA-256, command, parameters and successful checks |
 
-Generated files are ignored by Git. The `results/` directories contain committed statistics, manifests, commands, warnings and final log excerpts from the measured runs. Their commands refer to the generated output locations used during those runs; use the Python commands above to reproduce them on another machine. Check the manifest's source SHA-256 against the RTL before using a snapshot for a report.
+Generated files are ignored by Git. The `traffic_counters/` snapshots correspond to the Phase II runs. Check the manifest's source SHA-256 against the RTL before using a snapshot for a report.
 
-## Target and measured results
+## Archived results before memory traffic counters
 
-Target: **generic Yosys cells**, using `synth -top dm_cache` and its default ABC mapping. No FPGA part, ASIC cell library, placement, routing or clock constraint was supplied. Tool: Yosys 0.71+post, Git revision `5628c13240f670b97aaaca3d47940c4afb8ff572`, AppleClang 21.0.0.21000401.
+The historical snapshots under `results/` apply to an earlier RTL revision. The target was **generic Yosys cells**, using `synth -top dm_cache` and its default ABC mapping. Tool: Yosys 0.71+post, Git revision `5628c13240f670b97aaaca3d47940c4afb8ff572`, AppleClang 21.0.0.21000401.
 
 Configuration: 1 KB data cache, 16-byte blocks, 64 lines, 22-bit tags. Both policy variants retain the same external ports and statistics/debug outputs.
 

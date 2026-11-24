@@ -1,0 +1,55 @@
+{
+  "tool": "Yosys 0.71+post (git sha1 5628c13240f670b97aaaca3d47940c4afb8ff572, Release, AppleClang clang++ 21.0.0.21000401)",
+  "top": "dm_cache",
+  "target": "generic Yosys cells; no FPGA device, ASIC library or clock constraint",
+  "sources": {
+    "rtl/dm_cache.v": "3dc17f9f207cd93b52d7a9255852edbce76400745e0d1fec3e9d74534d82cdba"
+  },
+  "memory_model": "main_mem is a simulation model and is not synthesized",
+  "runs": [
+    {
+      "command": "python3 scripts/synthesize.py --cache-size 512 --block-size 16 --write-allocate 0",
+      "parameters": {
+        "CACHE_SIZE": 512,
+        "BLOCK_SIZE": 16,
+        "WRITE_ALLOCATE": 0
+      },
+      "statistics": "cache512_block16_wa0.json",
+      "checks": "check -assert -nolatches passed",
+      "warnings": []
+    },
+    {
+      "command": "python3 scripts/synthesize.py --cache-size 512 --block-size 16 --write-allocate 1",
+      "parameters": {
+        "CACHE_SIZE": 512,
+        "BLOCK_SIZE": 16,
+        "WRITE_ALLOCATE": 1
+      },
+      "statistics": "cache512_block16_wa1.json",
+      "checks": "check -assert -nolatches passed",
+      "warnings": []
+    },
+    {
+      "command": "python3 scripts/synthesize.py --cache-size 1024 --block-size 16 --write-allocate 0",
+      "parameters": {
+        "CACHE_SIZE": 1024,
+        "BLOCK_SIZE": 16,
+        "WRITE_ALLOCATE": 0
+      },
+      "statistics": "cache1024_block16_wa0.json",
+      "checks": "check -assert -nolatches passed",
+      "warnings": []
+    },
+    {
+      "command": "python3 scripts/synthesize.py --cache-size 1024 --block-size 16 --write-allocate 1",
+      "parameters": {
+        "CACHE_SIZE": 1024,
+        "BLOCK_SIZE": 16,
+        "WRITE_ALLOCATE": 1
+      },
+      "statistics": "cache1024_block16_wa1.json",
+      "checks": "check -assert -nolatches passed",
+      "warnings": []
+    }
+  ]
+}
