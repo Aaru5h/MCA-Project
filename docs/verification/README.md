@@ -16,40 +16,51 @@ This directory contains the verification assets, test suites, and cross-model re
 
 | Configuration | Trace | Accesses | RTL Hits | Model Hits | RTL Misses | Model Misses | Hit Rate | AMAT (cyc) | Status |
 |---|---|---:|---:|---:|---:|---:|---:|---:|:---:|
-| 1KB_16B_L4_WA0 | `smoke.trace` | 14 | 8 | 8 | 6 | 6 | 57.14% | 11.57 | **PASS** |
+| 1KB_16B_L4_WA0 | `smoke.trace` | 14 | 8 | 8 | 6 | 6 | 57.14% | 11.33 | **PASS** |
 | 1KB_16B_L4_WA0 | `seq_check.trace` | 512 | 384 | 384 | 128 | 128 | 75.00% | 8.0 | **PASS** |
 | 1KB_16B_L4_WA0 | `sequential.trace` | 256 | 192 | 192 | 64 | 64 | 75.00% | 8.0 | **PASS** |
 | 1KB_16B_L4_WA0 | `repeated_loop.trace` | 128 | 120 | 120 | 8 | 8 | 93.75% | 4.25 | **PASS** |
 | 1KB_16B_L4_WA0 | `strided.trace` | 128 | 0 | 0 | 128 | 128 | 0.00% | 23.0 | **PASS** |
 | 1KB_16B_L4_WA0 | `conflict.trace` | 128 | 0 | 0 | 128 | 128 | 0.00% | 23.0 | **PASS** |
 | 1KB_16B_L4_WA0 | `random.trace` | 256 | 192 | 192 | 64 | 64 | 75.00% | 8.0 | **PASS** |
-| 1KB_16B_L4_WA0 | `mixed_rw.trace` | 256 | 227 | 227 | 29 | 29 | 88.67% | 5.27 | **PASS** |
-| 1KB_16B_L4_WA1 | `smoke.trace` | 14 | 9 | 9 | 5 | 5 | 64.29% | 10.14 | **PASS** |
+| 1KB_16B_L4_WA0 | `mixed_rw.trace` | 256 | 227 | 227 | 29 | 29 | 88.67% | 4.94 | **PASS** |
+| 1KB_16B_L4_WA1 | `smoke.trace` | 14 | 9 | 9 | 5 | 5 | 64.29% | 9.67 | **PASS** |
 | 1KB_16B_L4_WA1 | `seq_check.trace` | 512 | 384 | 384 | 128 | 128 | 75.00% | 8.0 | **PASS** |
 | 1KB_16B_L4_WA1 | `sequential.trace` | 256 | 192 | 192 | 64 | 64 | 75.00% | 8.0 | **PASS** |
 | 1KB_16B_L4_WA1 | `repeated_loop.trace` | 128 | 120 | 120 | 8 | 8 | 93.75% | 4.25 | **PASS** |
 | 1KB_16B_L4_WA1 | `strided.trace` | 128 | 0 | 0 | 128 | 128 | 0.00% | 23.0 | **PASS** |
 | 1KB_16B_L4_WA1 | `conflict.trace` | 128 | 0 | 0 | 128 | 128 | 0.00% | 23.0 | **PASS** |
 | 1KB_16B_L4_WA1 | `random.trace` | 256 | 192 | 192 | 64 | 64 | 75.00% | 8.0 | **PASS** |
-| 1KB_16B_L4_WA1 | `mixed_rw.trace` | 256 | 240 | 240 | 16 | 16 | 93.75% | 4.25 | **PASS** |
-| 512B_16B_L4_WA0 | `smoke.trace` | 14 | 8 | 8 | 6 | 6 | 57.14% | 11.57 | **PASS** |
+| 1KB_16B_L4_WA1 | `mixed_rw.trace` | 256 | 240 | 240 | 16 | 16 | 93.75% | 3.97 | **PASS** |
+| 512B_16B_L4_WA0 | `smoke.trace` | 14 | 8 | 8 | 6 | 6 | 57.14% | 11.33 | **PASS** |
 | 512B_16B_L4_WA0 | `seq_check.trace` | 512 | 384 | 384 | 128 | 128 | 75.00% | 8.0 | **PASS** |
 | 512B_16B_L4_WA0 | `sequential.trace` | 256 | 192 | 192 | 64 | 64 | 75.00% | 8.0 | **PASS** |
 | 512B_16B_L4_WA0 | `repeated_loop.trace` | 128 | 120 | 120 | 8 | 8 | 93.75% | 4.25 | **PASS** |
 | 512B_16B_L4_WA0 | `strided.trace` | 128 | 0 | 0 | 128 | 128 | 0.00% | 23.0 | **PASS** |
 | 512B_16B_L4_WA0 | `conflict.trace` | 128 | 0 | 0 | 128 | 128 | 0.00% | 23.0 | **PASS** |
 | 512B_16B_L4_WA0 | `random.trace` | 256 | 123 | 123 | 133 | 133 | 48.05% | 13.39 | **PASS** |
-| 512B_16B_L4_WA0 | `mixed_rw.trace` | 256 | 227 | 227 | 29 | 29 | 88.67% | 5.27 | **PASS** |
-| 1KB_32B_L8_WA0 | `smoke.trace` | 14 | 8 | 8 | 6 | 6 | 57.14% | 33.86 | **PASS** |
+| 512B_16B_L4_WA0 | `mixed_rw.trace` | 256 | 227 | 227 | 29 | 29 | 88.67% | 4.94 | **PASS** |
+| 1KB_32B_L8_WA0 | `smoke.trace` | 14 | 8 | 8 | 6 | 6 | 57.14% | 33.0 | **PASS** |
 | 1KB_32B_L8_WA0 | `seq_check.trace` | 512 | 448 | 448 | 64 | 64 | 87.50% | 12.0 | **PASS** |
 | 1KB_32B_L8_WA0 | `sequential.trace` | 256 | 224 | 224 | 32 | 32 | 87.50% | 12.0 | **PASS** |
 | 1KB_32B_L8_WA0 | `repeated_loop.trace` | 128 | 124 | 124 | 4 | 4 | 96.88% | 5.25 | **PASS** |
 | 1KB_32B_L8_WA0 | `strided.trace` | 128 | 0 | 0 | 128 | 128 | 0.00% | 75.0 | **PASS** |
 | 1KB_32B_L8_WA0 | `conflict.trace` | 128 | 0 | 0 | 128 | 128 | 0.00% | 75.0 | **PASS** |
 | 1KB_32B_L8_WA0 | `random.trace` | 256 | 224 | 224 | 32 | 32 | 87.50% | 12.0 | **PASS** |
-| 1KB_32B_L8_WA0 | `mixed_rw.trace` | 256 | 239 | 239 | 17 | 17 | 93.36% | 7.78 | **PASS** |
+| 1KB_32B_L8_WA0 | `mixed_rw.trace` | 256 | 239 | 239 | 17 | 17 | 93.36% | 6.49 | **PASS** |
 
-## 3. How to Reproduce
+## 3. Negative Testing & Fault Injection (Deliberate-Bug Verification)
+
+To ensure verification fidelity and prove that testbenches reliably catch design faults, a deliberate fault injection experiment was conducted:
+
+- **Injected Fault**: In `rtl/dm_cache.v`, the line valid check was bypassed (`is_hit = tag_match` instead of `is_hit = line_valid & tag_match`).
+- **Expected Behavior**: Post-reset cold accesses and uninitialized lines must never falsely hit on unallocated cache blocks even if tag bits happen to match.
+- **Observed Failure**:
+  - `tb/tb_dm_cache.v` immediately flagged fatal errors on **Test 9** (`Clean cold miss after reset recovery`) and **Test 12** (`Cold miss after mid-write reset recovery`).
+  - Stage 1 directed regression failed across all configurations, and the test runner exited with error status.
+- **Restoration & Verification**: Restoring `is_hit = line_valid & tag_match` confirmed 100% pass across all 12 directed scenarios and all 32 cross-model trace checks.
+
+## 4. How to Reproduce
 
 ```bash
 # 1. Run complete automated regression suite
