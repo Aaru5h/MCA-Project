@@ -8,15 +8,22 @@ Course: Modern Computer Architecture, Newton School of Technology, Rishihood Uni
 
 | Member | Work package | Owns |
 |---|---|---|
-| Aarush Gupta | Existing Phase I foundation | Initial cache datapath, controller and memory prototype, trace testbench, Python model, address derivation, configuration results, README |
+| Aarush Gupta | Cache datapath, performance and repository lead | Cache datapath and first working controller/memory RTL, trace-driven testbench (`tb/tb_trace.v`), Python reference model, address-field derivation, configuration check, repository setup, README and results integration |
 | Deepak | RTL, memory interface and synthesis | `rtl/`, synthesis scripts, `docs/synthesis/`, controller and memory timing notes |
 | Kushagra | Verification and workload generation | `tb/tb_dm_cache.v`, testbench correctness checks, `scripts/trace_gen.py`, `traces/`, regression runner |
 | Meet | Performance experiments and visual analysis | Sweep scripts, raw performance results, plots, `docs/diagrams/`, `docs/waveforms/` |
 | Utkarsh | Performance accounting, baseline and final delivery | Timing metrics in `tb/tb_trace.v`, no-cache benchmark, `report/`, video script and published links |
 
-## Remaining work and ownership
+## Contributions
 
-The work is split into four substantial packages across Deepak, Kushagra, Meet and Utkarsh. Each package includes implementation, validation and documentation. Aarush's Phase I foundation is the starting point. Deepak's, Kushagra's and Meet's packages are implemented below. Utkarsh's performance accounting and measured baseline are implemented. The current IEEE report PDF and Phase I video are linked below.
+Each member's work, with the files they own, is listed below. Every package includes implementation, validation and documentation.
+
+### Aarush — Cache datapath, performance and repository (implemented)
+
+- Built the first working cache: the parameterized datapath in `rtl/dm_cache.v` (data, tag and valid arrays, address split and hit check), the controller states, and the fixed-latency memory model in `rtl/main_mem.v`.
+- Wrote the trace-driven, self-checking testbench `tb/tb_trace.v` and the Python reference model `scripts/cache_model.py`, and cross-checked their hit and miss counts.
+- Derived the address fields in [`docs/address_fields.md`](docs/address_fields.md) and ran the configuration check in [`docs/results/config_check.md`](docs/results/config_check.md).
+- Set up the repository and maintained this README. In Phase II, integrated the synthesis and memory-traffic results below and the traffic section of the [performance analysis](docs/results/performance_analysis.md).
 
 ### Deepak — RTL, memory interface and synthesis (implemented)
 
@@ -42,20 +49,13 @@ The work is split into four substantial packages across Deepak, Kushagra, Meet a
 - Created synthesizable cache datapath architecture and controller FSM diagrams in [`docs/diagrams/`](docs/diagrams/README.md), strictly consistent with Deepak's final RTL.
 - Implemented `tb/tb_waveforms.v` and `scripts/generate_waveforms.py`, capturing VCD traces and annotating 7 execution scenarios (read hit, read miss, conflict eviction, write hit/miss under both policies, and mid-transaction reset recovery) in [`docs/waveforms/`](docs/waveforms/README.md).
 
-### Utkarsh — Performance accounting and baseline (implemented); final delivery pending
+### Utkarsh — Performance accounting, baseline and report (implemented)
 
 - Corrected `tb/tb_trace.v` read AMAT and mixed-traffic accounting, with separate read/write hit/miss counts and cycle sums, measured averages, explicit estimates and `N/A`/JSON `null` for unobserved classes.
 - Added `tb/tb_no_cache.v` and `scripts/benchmark.py` to measure the same traces against the unchanged memory model using the controller's request/completion convention. Comparisons use measured integer cycle totals.
 - Added `scripts/validate_performance.py`: 336 hand-calculable cases across 48 configurations, 64 workload comparisons and four invalid-address checks pass. The existing five directed configurations and 32 trace comparisons also pass without rewriting their reports.
 - Documented formulas, baseline assumptions and reproduction commands in [performance metrics](docs/results/performance_metrics.md), with saved measurements and source hashes in [Utkarsh's results](docs/results/utkarsh/README.md). These supply the accounting and baseline handoff for experiment integration.
-- Pending: IEEE report source/PDF, video script and recording, and published delivery links. Each member records and explains their own work.
-
-### Integration and completion
-
-1. Deepak and Utkarsh agree on the timing convention; Kushagra supplies directed tests and deterministic workloads. All four can begin their package independently using the current prototype.
-2. Kushagra validates Deepak's RTL and both allocation policies. Utkarsh validates performance accounting and the no-cache benchmark before Meet produces final sweeps.
-3. Meet publishes reproducible results and figures. Each owner supplies their technical write-up and demo segment; Utkarsh integrates the final report and video.
-4. A package is complete when its code or assets, reproduction commands, validation evidence and documentation are committed. Each owner updates the relevant README instructions and status when their deliverables land.
+- Wrote the IEEE report ([PDF](report/MCA_Direct_Mapped_Cache_IEEE_Report.pdf)) and the Phase I video script, and published the delivery links.
 
 ## Cache parameters
 
@@ -224,7 +224,7 @@ R 00000040
 W 00000444 12345678
 ```
 
-## Results so far (Phase I)
+## Phase I results
 
 Measured at memory latency 4, 1 KB / 16 B:
 
@@ -243,6 +243,34 @@ Measured at memory latency 4, 1 KB / 16 B:
 The configuration check (512 B, and 32 B blocks) is in [`docs/results/config_check.md`](docs/results/config_check.md). Corrected read AMAT and measured no-cache comparisons are available in [Utkarsh's results](docs/results/utkarsh/README.md). Meet's size/block sweeps are linked in the performance section above. Generic synthesis for both allocation policies and additional controller latency measurements are available in the linked documentation.
 
 For read traffic, **AMAT** is measured read cycles divided by reads, equivalent to read-hit time + read-miss rate × read-miss penalty for fixed class costs. The separately measured average cycles per access includes writes. At the default configuration, `smoke.trace` measures read AMAT **11.33** and all-access average **10.86** cycles; `mixed_rw.trace` measures **4.94** and **6.03** respectively. The runnable no-cache benchmark measures **8.00** cycles/access. Unobserved class timings are `N/A`, and write-only traces have no read AMAT. Full formulas and assumptions are in [performance metrics](docs/results/performance_metrics.md).
+
+## Phase II results
+
+### Synthesis
+
+Generic Yosys synthesis of `dm_cache` (datapath, controller and the new memory-traffic counters) with 16-byte blocks. All four runs passed `check -assert -nolatches` with zero warnings. Details and reproduction commands are in [`docs/synthesis/README.md`](docs/synthesis/README.md); the chart is [`plot_synthesis_resources.svg`](docs/results/plots/plot_synthesis_resources.svg).
+
+| Cache size | `WRITE_ALLOCATE` | Generic cells | Flip-flop bits | Mux cells | Warnings |
+|---|---:|---:|---:|---:|---:|
+| 512 B | 0 | 12,797 | 5,164 | 3,579 | 0 |
+| 512 B | 1 | 12,797 | 5,164 | 3,582 | 0 |
+| 1 KB | 0 | 24,994 | 9,965 | 6,931 | 0 |
+| 1 KB | 1 | 25,080 | 9,965 | 6,906 | 0 |
+
+Halving the cache roughly halves the cell count, because the data, tag and valid arrays dominate the design. Write allocation changes the count by less than 0.4%. Yosys's generic flow has no FPGA memory primitives, so the arrays become flip-flops and multiplexers; an FPGA tool would normally map them to block or distributed RAM. **Maximum clock frequency and FPGA utilization were not measured:** Vivado was not available and no target device was specified. These counts are generic resources, not device area.
+
+### Memory traffic: write-allocate vs no-write-allocate
+
+The controller now counts completed backing-memory reads (`mem_reads`) and writes (`mem_writes`) in 32-bit words. All eight traces were run at 1 KB, 16 B blocks and latency 4 under both policies ([CSV](docs/results/memory_traffic.csv), [plot](docs/results/plots/plot_memory_traffic.svg), [notes](docs/results/memory_traffic.md)).
+
+| Trace | Policy | Read misses | Write misses | `mem_reads` | `mem_writes` | Total words |
+|---|---|---:|---:|---:|---:|---:|
+| `mixed_rw` | no-allocate | 16 | 13 | 64 | 91 | 155 |
+| `mixed_rw` | write-allocate | 8 | 8 | 64 | 91 | 155 |
+| `smoke` | no-allocate | 5 | 1 | 20 | 2 | 22 |
+| `smoke` | write-allocate | 4 | 1 | 20 | 2 | 22 |
+
+The six read-only traces are identical under both policies. Memory writes always equal CPU writes, because the cache is write-through. On these traces, write allocation does not change total traffic: every block it fetches on a write miss would otherwise have been fetched by a later read miss. It moves the refill earlier, which lowers `mixed_rw` read AMAT from 4.94 to 3.97 cycles. When written data is never read again, write allocation adds traffic: an isolated cold write moves 4 read words with allocation and none without. The full discussion is in the [performance analysis](docs/results/performance_analysis.md#8-memory-traffic-write-allocate-vs-no-write-allocate).
 
 ## Known simplifications
 
