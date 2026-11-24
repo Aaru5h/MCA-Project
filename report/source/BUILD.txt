@@ -1,0 +1,29 @@
+Phase II IEEE-style report source (Python, no LaTeX)
+
+Build from the repository root:
+  python3 -m pip install -r report/source/requirements.txt
+  python3 report/source/build_report.py
+
+Default output:
+  report/MCA_Direct_Mapped_Cache_IEEE_Report.pdf
+
+Optional arguments:
+  --output /path/to/report.pdf
+  --font-dir /path/to/fonts
+
+Fonts: Times New Roman is detected on macOS and Windows. Liberation Serif is
+supported on Linux. Supply the directory containing regular, bold and italic
+TrueType files with --font-dir if automatic detection does not find them.
+Fonts are embedded in the PDF but are not redistributed in this source package.
+
+The source contains all report prose, page layout, diagrams, tables and references.
+data/ contains report-local CSV snapshots and evidence.json. The two Phase II SVG
+plots in assets/ are exact copies of the team's checked-in figures, not redraws.
+The build reads only this source directory and does not modify design or result
+files. If the RTL or measurements change, revalidate and refresh the snapshots
+before rebuilding the report. The saved synthesis was checked by source hash;
+Vivado utilization and maximum frequency remain unmeasured.
+
+Fresh report validation used Icarus Verilog 13.0 on revision recorded in
+data/evidence.json. The documented deliberate-bug experiment is attributed to
+the Phase II verification record and was not repeated for report generation.

@@ -1,0 +1,90 @@
+{
+  "code_revision": "f25272757f83fade248cfd2067f8e2ba5efefcf9",
+  "validation_date": "2026-11-24",
+  "simulator": "Icarus Verilog 13.0",
+  "report_checks": {
+    "performance_hand_cases": 336,
+    "performance_workload_comparisons": 64,
+    "invalid_address_checks": 4,
+    "directed_configurations": 5,
+    "trace_model_comparisons": 32,
+    "memory_traffic_runs": 16,
+    "traffic_csv_matches_checked_in_bytes": true
+  },
+  "cold_write": [
+    {
+      "write_allocate": 0,
+      "mem_reads": 0,
+      "mem_writes": 1,
+      "cycles": 8
+    },
+    {
+      "write_allocate": 1,
+      "mem_reads": 4,
+      "mem_writes": 1,
+      "cycles": 28
+    }
+  ],
+  "fault_injection": "Recorded Phase II experiment in docs/verification/README.md; not repeated or modified for report generation.",
+  "synthesis": "Saved Phase II results, not resynthesized; source hash matches current RTL.",
+  "checks_run": [
+    "python3 -B scripts/validate_performance.py",
+    "python3 -B scripts/measure_memory_traffic.py --output <TEMP>/memory_traffic.csv",
+    "compare temporary traffic CSV byte-for-byte with docs/results/memory_traffic.csv",
+    "python3 -B scripts/benchmark.py --output <TEMP>/workloads_wa0.csv",
+    "python3 -B scripts/benchmark.py --write-allocate 1 --output <TEMP>/workloads_wa1.csv",
+    "run_directed_suite() and run_trace_matrix() without save_reports()",
+    "Simulator.measure() for an isolated cold write under each policy"
+  ],
+  "source_sha256": {
+    "rtl/dm_cache.v": "3dc17f9f207cd93b52d7a9255852edbce76400745e0d1fec3e9d74534d82cdba",
+    "rtl/main_mem.v": "025a7b2f9148f6726e47abebe641ff25089d9a8c2ee5e698182d4fbd3f8e85c4",
+    "tb/tb_trace.v": "c972547eb859391bcf65c53ff06cb8fb0d9f085590ea4b2b6d509c7a2e6dc34f",
+    "tb/tb_no_cache.v": "75d23ff47a6968ac0a9475ae31deb597f118c5cacebf236ba81492bffa251f2f",
+    "tb/tb_dm_cache.v": "d7fe766424b76b5d620152ee69b2402ff0fc01299a7649052bb983e5c69bd1d0",
+    "scripts/benchmark.py": "0fc383ceefcef1a79e9b7fdf6496a92a2b80acf48cad7bf52c2db66b2bca391d",
+    "scripts/validate_performance.py": "0fcb06d9a5d29ef953785f6527c294a5299096245a58e47a7fd6f75753a37f2e",
+    "scripts/run_regression.py": "97f8d251dd1a0c1bd7c507587f840cfaa8816aabfb18d7fe24ebceae59df3101",
+    "scripts/measure_memory_traffic.py": "750161bd254c51cfbbc857462dd5df2ff78152413f35eb997cdbbf461fc18dfb",
+    "README.md": "1db5b949baa563ffc9fa1e1cdfa7870d05f712eff11e605ad5ce1e2e5b1a01e4",
+    "docs/verification/README.md": "7bfd208a4a5214e97c39b6088f851fc7990ae3ab45404e2877439dceafd36f7f",
+    "docs/synthesis/traffic_counters/manifest.json": "f0e1172df2f92058374f8acd9b691ea826ab96b6416a503f01a1c9ea72c817e0",
+    "docs/results/memory_traffic.csv": "3e661d655a37442e86fac5707d11e0bad5549d7b66359e2bb1ea33bede713881",
+    "docs/synthesis/traffic_counters/resources.csv": "6a3a5c2832ff2c1f92bbae6716d0734d6d7e6e255f975db2109e55b8962a6c96",
+    "docs/results/plots/plot_memory_traffic.svg": "a34e4d2c4a8f68b15bacd634b2200c2f93be35a71e2b939b32b1242622ccefec",
+    "docs/results/plots/plot_synthesis_resources.svg": "1f8d0cfb32d3e7bf74a8fc0a00585a6b9bcf23811c764803f8f5847d0e3ccd92"
+  },
+  "contribution_commit_examples": {
+    "Aarush Gupta": [
+      "47ad589",
+      "1e87e6d",
+      "daf83e2"
+    ],
+    "Deepak Mishra": [
+      "95228b2",
+      "1d91a07",
+      "9ca1f43",
+      "eb0b24f",
+      "cb43d88"
+    ],
+    "Kushagra Bhardwaj": [
+      "3770b37",
+      "8e502b0",
+      "0cec4f6"
+    ],
+    "Meet Ahuja": [
+      "e2f7a44",
+      "3a0b57a",
+      "153a7f3",
+      "71d2bee"
+    ],
+    "Utkarsh": [
+      "3528c17",
+      "b4af3e8",
+      "681791e",
+      "fbbd40e",
+      "1783725",
+      "a511728"
+    ]
+  }
+}

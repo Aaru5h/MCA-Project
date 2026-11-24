@@ -1,0 +1,5 @@
+cache_size,block_size,write_allocate,generic_cells,flip_flop_bits,mux_cells,wire_bits,warning_count
+512,16,0,12797,5164,3579,13210,0
+512,16,1,12797,5164,3582,13179,0
+1024,16,0,24994,9965,6931,25406,0
+1024,16,1,25080,9965,6906,25461,0

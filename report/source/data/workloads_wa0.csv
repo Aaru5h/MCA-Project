@@ -1,0 +1,9 @@
+trace,cache_size,block_size,latency,write_allocate,accesses,reads,writes,hits,misses,rd_hits,rd_misses,wr_hits,wr_misses,rd_hit_cycles,rd_miss_cycles,wr_hit_cycles,wr_miss_cycles,cache_total_cycles,no_cache_total_cycles,no_cache_read_cycles,no_cache_write_cycles,no_cache_memory_transactions,cache_avg_cycles,read_amat,no_cache_avg_cycles,speedup,timing_source
+conflict.trace,1024,16,4,0,128,128,0,0,128,0,128,0,0,0,2944,0,0,2944,1024,1024,0,128,23.0,23.0,8.0,0.347826,RTL simulation
+mixed_rw.trace,1024,16,4,0,256,165,91,227,29,149,16,78,13,447,368,624,104,1543,2048,1320,728,256,6.027344,4.939394,8.0,1.327285,RTL simulation
+random.trace,1024,16,4,0,256,256,0,192,64,192,64,0,0,576,1472,0,0,2048,2048,2048,0,256,8.0,8.0,8.0,1.0,RTL simulation
+repeated_loop.trace,1024,16,4,0,128,128,0,120,8,120,8,0,0,360,184,0,0,544,1024,1024,0,128,4.25,4.25,8.0,1.882353,RTL simulation
+seq_check.trace,1024,16,4,0,512,512,0,384,128,384,128,0,0,1152,2944,0,0,4096,4096,4096,0,512,8.0,8.0,8.0,1.0,RTL simulation
+sequential.trace,1024,16,4,0,256,256,0,192,64,192,64,0,0,576,1472,0,0,2048,2048,2048,0,256,8.0,8.0,8.0,1.0,RTL simulation
+smoke.trace,1024,16,4,0,14,12,2,8,6,7,5,1,1,21,115,8,8,152,112,96,16,14,10.857143,11.333333,8.0,0.736842,RTL simulation
+strided.trace,1024,16,4,0,128,128,0,0,128,0,128,0,0,0,2944,0,0,2944,1024,1024,0,128,23.0,23.0,8.0,0.347826,RTL simulation

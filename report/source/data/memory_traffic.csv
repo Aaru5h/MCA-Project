@@ -1,0 +1,17 @@
+trace,cache_size,block_size,latency,write_allocate,accesses,cpu_reads,cpu_writes,read_misses,write_misses,mem_reads,mem_writes,mem_total_words
+conflict.trace,1024,16,4,0,128,128,0,128,0,512,0,512
+mixed_rw.trace,1024,16,4,0,256,165,91,16,13,64,91,155
+random.trace,1024,16,4,0,256,256,0,64,0,256,0,256
+repeated_loop.trace,1024,16,4,0,128,128,0,8,0,32,0,32
+seq_check.trace,1024,16,4,0,512,512,0,128,0,512,0,512
+sequential.trace,1024,16,4,0,256,256,0,64,0,256,0,256
+smoke.trace,1024,16,4,0,14,12,2,5,1,20,2,22
+strided.trace,1024,16,4,0,128,128,0,128,0,512,0,512
+conflict.trace,1024,16,4,1,128,128,0,128,0,512,0,512
+mixed_rw.trace,1024,16,4,1,256,165,91,8,8,64,91,155
+random.trace,1024,16,4,1,256,256,0,64,0,256,0,256
+repeated_loop.trace,1024,16,4,1,128,128,0,8,0,32,0,32
+seq_check.trace,1024,16,4,1,512,512,0,128,0,512,0,512
+sequential.trace,1024,16,4,1,256,256,0,64,0,256,0,256
+smoke.trace,1024,16,4,1,14,12,2,4,1,20,2,22
+strided.trace,1024,16,4,1,128,128,0,128,0,512,0,512
