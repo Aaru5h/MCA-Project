@@ -48,6 +48,7 @@ module tb_trace;
     wire        mem_req, mem_we, mem_ready;
     wire [31:0] mem_addr, mem_wdata, mem_rdata;
     wire [31:0] hit_count, miss_count, dbg_tag;
+    wire [31:0] mem_reads, mem_writes;
     wire        dbg_hit, dbg_valid;
 
     dm_cache #(
@@ -61,6 +62,7 @@ module tb_trace;
         .mem_req(mem_req), .mem_we(mem_we), .mem_addr(mem_addr), .mem_wdata(mem_wdata),
         .mem_rdata(mem_rdata), .mem_ready(mem_ready),
         .hit_count(hit_count), .miss_count(miss_count),
+        .mem_reads(mem_reads), .mem_writes(mem_writes),
         .dbg_hit(dbg_hit), .dbg_tag(dbg_tag), .dbg_valid(dbg_valid));
 
     main_mem #(.LATENCY(LATENCY), .DEPTH_WORDS(MEM_WORDS)) memory (
@@ -227,6 +229,7 @@ module tb_trace;
                  dut.TAG_W, dut.INDEX_W, dut.OFFSET_W, dut.NUM_LINES);
         $display("accesses      : %0d  (reads %0d, writes %0d)", n_access, n_read, n_write);
         $display("hits / misses : %0d / %0d", hit_count, miss_count);
+        $display("memory words  : %0d reads, %0d writes (completed)", mem_reads, mem_writes);
         $display("hit rate      : %0.2f %%   miss rate: %0.2f %%", hit_rate, miss_rate);
         if (n_access == 0)
             $display("EMPTY TRACE   : No valid memory accesses processed from %0d lines", line_count);
@@ -281,7 +284,8 @@ module tb_trace;
         $write(",\"read_hit_avg_cycles\":"); write_average(rd_hit_cyc, rd_hit_n);
         $write(",\"read_miss_avg_cycles\":"); write_average(rd_miss_cyc, rd_miss_n);
         $write(",\"write_avg_cycles\":"); write_average(wr_cyc, wr_n);
-        $display(",\"no_cache_estimate_cycles\":%0.6f}", no_cache_estimate);
+        $display(",\"no_cache_estimate_cycles\":%0.6f,\"mem_reads\":%0d,\"mem_writes\":%0d}",
+                 no_cache_estimate, mem_reads, mem_writes);
         $finish;
     end
 endmodule
