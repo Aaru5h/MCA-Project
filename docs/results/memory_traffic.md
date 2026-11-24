@@ -1,6 +1,25 @@
-# Phase II memory traffic and verification handoff
+# Phase II memory traffic and synthesis plots
 
-Deepak's RTL, traffic runs, and synthesis measurements are ready for Kushagra. **Kushagra verifies the change first. Meet starts the traffic and resource plots after Kushagra records the regression and deliberate-bug results.**
+Deepak collected the measurements, Kushagra recorded the regression and deliberate valid-bit fault results, and Meet prepared the figures for Utkarsh's report. [Verification summary](../verification/README.md#3-negative-testing--fault-injection-deliberate-bug-verification)
+
+## Figures for the report
+
+![Completed backing-memory reads and writes for eight traces under both allocation policies](plots/plot_memory_traffic.svg)
+
+**Traffic takeaway.** Both allocation policies transferred the same number of read words and write words on all eight traces at 1 KB, 16 B blocks, and latency 4. [Traffic figure](plots/plot_memory_traffic.svg) · [Source CSV](memory_traffic.csv)
+
+![Generic Yosys resource counts for 512 B and 1 KB caches under both allocation policies](plots/plot_synthesis_resources.svg)
+
+**Resource takeaway.** The 512 B cache used about half as many generic cells as the 1 KB cache under either write policy. [Resource figure](plots/plot_synthesis_resources.svg) · [Source CSV](../synthesis/traffic_counters/resources.csv)
+
+The resource figure includes the traffic counters and uses generic Yosys cell counts. FPGA utilization and maximum frequency remain unmeasured. [Synthesis notes](../synthesis/README.md)
+
+Regenerate both SVGs from the checked-in CSVs with Python and Matplotlib:
+
+```bash
+python3 -m pip install matplotlib
+python3 scripts/plot_phase2_results.py
+```
 
 ## Measurements
 
@@ -22,11 +41,4 @@ python3 scripts/measure_memory_traffic.py --output /tmp/mca-memory-traffic.csv
 diff -u docs/results/memory_traffic.csv /tmp/mca-memory-traffic.csv
 ```
 
-The checked-in CSV passed all 16 data and traffic checks with Icarus Verilog 13.0. A second run at 512 B, 4-byte blocks, and latency 1 passed all 16 checks. An isolated cold write measured 0 reads and 1 write without allocation, and 4 reads and 1 write with allocation at the default geometry. The existing regression passed in a scratch copy, and a temporary monitor checked the RTL counters against memory completions through the directed tests under both policies, including reset. Kushagra's permanent regression update and deliberate-bug check are still pending.
-
-## Kushagra then Meet
-
-1. Run `python3 scripts/run_regression.py` on clean `main` and save the verification summary in `docs/verification/`. The current matrix already covers both policies at the default geometry. Add the opposite policy for configurations that currently run only one mode so the entire matrix covers both. The runner regenerates the verification README and CSV.
-2. Wire the new output ports into the directed bench. Check that a read hit adds no traffic, a cold read adds one block of reads, and a write adds exactly one memory write. Use an isolated cold write to distinguish allocation modes. Confirm both counters clear on reset during an access, and check that a pending word is counted only when its completion is accepted.
-3. In an isolated checkout, remove the valid-bit check from the hit predicate and record which tests fail. Run the same selection with the clean RTL again and record the passing result. Keep the deliberate mutation out of `main`. Share the verification summary with Utkarsh and hand off to Meet when the clean run passes.
-4. After Kushagra's verification, Meet can use [the traffic CSV](memory_traffic.csv) and [the comparable 512 B and 1 KB synthesis CSV](../synthesis/traffic_counters/resources.csv). Label the resource chart as generic Yosys cells. The [synthesis notes](../synthesis/README.md) cover the tool, structural checks, and why FPGA utilization and frequency remain unmeasured.
+The checked-in CSV passed all 16 data and traffic checks with Icarus Verilog 13.0. A second run at 512 B, 4-byte blocks, and latency 1 passed all 16 checks. An isolated cold write measured 0 reads and 1 write without allocation, and 4 reads and 1 write with allocation at the default geometry. A temporary monitor checked the RTL counters against memory completions through the directed tests under both policies, including reset. [Recorded regression results](../verification/README.md)
